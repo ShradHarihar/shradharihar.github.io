@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alex Morgan — GNN Researcher</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0e1a;
+      --bg2: #0d1220;
+      --sidebar: #080c18;
+      --fg: #e8edf5;
+      --muted: #5a6a8a;
+      --accent: #00d4ff;
+      --accent2: #a8ff3e;
+      --border: #1a2240;
+      --card: #0f1628;
+      --card-hover: #131c35;
+      --sidebar-width: 260px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    #graph-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .hero-photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      object-fit: cover;
+      background: var(--card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0,212,255,0.2);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-photo-placeholder {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: linear-gradient(135deg, #1a2a4a, #0f1e35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--accent);
+      box-shadow: 0 0 30px rgba(0,212,255,0.2);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--fg);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s forwards;
+    }
+
+    .hero-name span { color: var(--accent); }
+
+    .hero-tagline {
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.45s forwards;
+    }
+
+    .hero-tagline span {
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .hero-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s forwards;
+    }
+
+    .hero-connect {
+      opacity: 0;
+      animation: fadeUp 0.9s 0.75s forwards;
+    }
+
+    .hero-connect p {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .hero-socials {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-socials a {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .hero-socials a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 15px rgba(0,212,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 1s 1.2s forwards;
+      cursor: pointer;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scrollPulse 2s infinite;
+    }
+
+    /* ─── MAIN LAYOUT ─── */
+    #main-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ─── SIDEBAR ─── */
+    #sidebar {
+      width: var(--sidebar-width);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+      transition: transform 0.3s;
+    }
+
+    .sidebar-top {
+      padding: 2rem 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-photo {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: linear-gradient(135deg, #1a2a4a, #0f1e35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+      box-shadow: 0 0 15px rgba(0,212,255,0.15);
+    }
+
+    .sidebar-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--fg);
+      line-height: 1.2;
+    }
+
+    .sidebar-tagline {
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      line-height: 1.4;
+    }
+
+    .sidebar-badge {
+      display: inline-block;
+      margin-top: 0.6rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      background: rgba(168,255,62,0.08);
+      border: 1px solid rgba(168,255,62,0.2);
+      font-size: 0.62rem;
+      color: var(--accent2);
+      letter-spacing: 0.08em;
+    }
+
+    /* Nav links */
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.2rem 0;
+      scrollbar-width: none;
+    }
+
+    .sidebar-nav::-webkit-scrollbar { display: none; }
+
+    .nav-section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.8rem 1.5rem 0.4rem;
+      opacity: 0.6;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.55rem 1.5rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+      position: relative;
+    }
+
+    .sidebar-nav a i {
+      width: 16px;
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    .sidebar-nav a:hover {
+      color: var(--fg);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .sidebar-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: rgba(0,212,255,0.05);
+    }
+
+    /* Sidebar bottom — pinned contact */
+    .sidebar-bottom {
+      padding: 1.2rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .sidebar-bottom-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+      opacity: 0.6;
+    }
+
+    .sidebar-contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sidebar-contacts a {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      transition: color 0.2s;
+    }
+
+    .sidebar-contacts a:hover { color: var(--accent); }
+    .sidebar-contacts a i { width: 14px; font-size: 0.75rem; }
+
+    .cv-btn {
+      margin-top: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.6rem;
+      border-radius: 6px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2);
+      color: var(--accent) !important;
+      font-size: 0.75rem !important;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+
+    .cv-btn:hover {
+      background: rgba(0,212,255,0.15) !important;
+      box-shadow: 0 0 15px rgba(0,212,255,0.1);
+    }
+
+    /* ─── CONTENT ─── */
+    #content {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      min-height: 100vh;
+    }
+
+    section {
+      padding: 5rem 4rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Graph background texture on alternate sections */
+    section:nth-child(even)::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 90% 50%, rgba(0,212,255,0.025) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 2.5rem;
+      line-height: 1.1;
+    }
+
+    .section-title span { color: var(--accent); }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .about-bio p {
+      color: #9aaac5;
+      line-height: 1.85;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .about-bio p:last-child { margin-bottom: 0; }
+
+    .about-highlight {
+      color: var(--fg) !important;
+      font-weight: 500;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem;
+      text-align: center;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .stat-card:hover {
+      border-color: rgba(0,212,255,0.3);
+      box-shadow: 0 0 20px rgba(0,212,255,0.06);
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--accent);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 0.3rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* Research Statement */
+    .research-statement {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--card);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: #b0c4d8;
+      line-height: 1.8;
+    }
+
+    /* ─── RESEARCH INTERESTS ─── */
+    .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .interest-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .interest-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .interest-card:hover {
+      border-color: rgba(0,212,255,0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .interest-card:hover::before { opacity: 1; }
+
+    .interest-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+      color: var(--accent);
+    }
+
+    .interest-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--fg);
+      margin-bottom: 0.4rem;
+    }
+
+    .interest-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── EDUCATION ─── */
+    .timeline { position: relative; padding-left: 2rem; }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px; bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(0,212,255,0.5);
+    }
+
+    .timeline-date {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--accent2);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .timeline-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--fg);
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .timeline-body {
+      font-size: 0.83rem;
+      color: #7a8fa8;
+      line-height: 1.7;
+    }
+
+    .timeline-tag {
+      display: inline-block;
+      margin-top: 0.5rem;
+      margin-right: 0.4rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      background: rgba(0,212,255,0.06);
+      border: 1px solid rgba(0,212,255,0.15);
+      font-size: 0.68rem;
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ─── EXPERIENCE ─── */
+    .exp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.8rem;
+      margin-bottom: 1.2rem;
+      transition: all 0.3s;
+    }
+
+    .exp-card:hover {
+      border-color: rgba(0,212,255,0.2);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .exp-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--fg);
+    }
+
+    .exp-org {
+      font-size: 0.8rem;
+      color: var(--accent);
+      margin-top: 0.15rem;
+    }
+
+    .exp-date {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      white-space: nowrap;
+    }
+
+    .exp-body {
+      font-size: 0.82rem;
+      color: #7a8fa8;
+      line-height: 1.75;
+    }
+
+    .exp-body ul {
+      padding-left: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    .exp-body ul li { margin-bottom: 0.3rem; }
+
+    /* ─── PROJECTS ─── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.6rem;
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      border-color: rgba(0,212,255,0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .project-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.8rem;
+    }
+
+    .project-icon { color: var(--accent); font-size: 1.2rem; }
+
+    .project-links { display: flex; gap: 0.6rem; }
+
+    .project-links a {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .project-links a:hover { color: var(--accent); }
+
+    .project-title {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--fg);
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 1rem;
+    }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: auto; }
+
+    .tag {
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(168,255,62,0.06);
+      border: 1px solid rgba(168,255,62,0.15);
+      font-size: 0.65rem;
+      color: var(--accent2);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ─── PUBLICATIONS ─── */
+    .pub-item {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+
+    .pub-item:last-child { border-bottom: none; }
+
+    .pub-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--accent);
+      font-weight: 700;
+      min-width: 50px;
+      line-height: 1;
+      padding-top: 3px;
+    }
+
+    .pub-content { flex: 1; }
+
+    .pub-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--fg);
+      margin-bottom: 0.3rem;
+      line-height: 1.4;
+    }
+
+    .pub-authors {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .pub-venue {
+      font-size: 0.78rem;
+      color: var(--accent2);
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+
+    .pub-links { display: flex; gap: 0.8rem; }
+
+    .pub-link {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid rgba(0,212,255,0.2);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      transition: all 0.2s;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .pub-link:hover {
+      background: rgba(0,212,255,0.08);
+    }
+
+    /* ─── SKILLS ─── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-group-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    .skill-items { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+    .skill-item {
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: #9aaac5;
+      transition: all 0.2s;
+    }
+
+    .skill-item:hover {
+      border-color: rgba(0,212,255,0.3);
+      color: var(--accent);
+    }
+
+    /* ─── CONFERENCES ─── */
+    .conf-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .conf-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.3rem;
+      transition: all 0.3s;
+    }
+
+    .conf-card:hover {
+      border-color: rgba(0,212,255,0.2);
+    }
+
+    .conf-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .conf-year {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .conf-role {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 20px;
+      background: rgba(168,255,62,0.08);
+      border: 1px solid rgba(168,255,62,0.2);
+      color: var(--accent2);
+    }
+
+    .conf-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--fg);
+      margin-bottom: 0.3rem;
+    }
+
+    .conf-location {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* ─── CERTIFICATIONS ─── */
+    .cert-list { display: flex; flex-direction: column; gap: 0.8rem; }
+
+    .cert-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.3rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    .cert-item:hover {
+      border-color: rgba(0,212,255,0.2);
+    }
+
+    .cert-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .cert-info { flex: 1; }
+
+    .cert-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    .cert-provider {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    .cert-year {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ─── AWARDS ─── */
+    .awards-list { display: flex; flex-direction: column; gap: 1rem; }
+
+    .award-item {
+      display: flex;
+      gap: 1.2rem;
+      align-items: flex-start;
+      padding: 1.3rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: all 0.3s;
+    }
+
+    .award-item:hover {
+      border-color: rgba(168,255,62,0.2);
+    }
+
+    .award-trophy {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .award-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--fg);
+      margin-bottom: 0.2rem;
+    }
+
+    .award-org {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .award-year {
+      font-size: 0.7rem;
+      color: var(--accent2);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ─── CONTACT SECTION ─── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .contact-info p {
+      font-size: 0.88rem;
+      color: #7a8fa8;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-items { display: flex; flex-direction: column; gap: 0.8rem; }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.8rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .contact-item:hover {
+      border-color: rgba(0,212,255,0.25);
+      transform: translateX(4px);
+    }
+
+    .contact-item i {
+      color: var(--accent);
+      width: 18px;
+      font-size: 0.9rem;
+    }
+
+    .contact-item span {
+      font-size: 0.82rem;
+      color: #9aaac5;
+    }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .social-card {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .social-card:hover {
+      border-color: rgba(0,212,255,0.2);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .social-card i {
+      font-size: 1.1rem;
+      color: var(--accent);
+      width: 20px;
+    }
+
+    .social-card-info { display: flex; flex-direction: column; }
+
+    .social-card-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    .social-card-handle {
+      font-size: 0.68rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      margin-left: var(--sidebar-width);
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ─── MOBILE ─── */
+    .hamburger {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 200;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 0.7rem;
+      cursor: pointer;
+      color: var(--fg);
+      font-size: 1rem;
+    }
+
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 40;
+    }
+
+    @media (max-width: 768px) {
+      #sidebar {
+        transform: translateX(-100%);
+      }
+
+      #sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay.open {
+        display: block;
+      }
+
+      #content, footer {
+        margin-left: 0;
+      }
+
+      section { padding: 3.5rem 1.5rem; }
+
+      .about-grid,
+      .contact-grid { grid-template-columns: 1fr; }
+
+      .hamburger { display: block; }
+
+      .hero-name { font-size: clamp(2.5rem, 10vw, 4rem); }
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Mobile hamburger -->
+<button class="hamburger" id="hamburger" aria-label="Menu">
+  <i class="fa fa-bars"></i>
+</button>
+<div class="sidebar-overlay" id="overlay"></div>
+
+<!-- ═══════════════════════════════════════
+     HERO — Full screen landing
+════════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="graph-canvas"></canvas>
+
+  <div class="hero-content">
+    <div class="hero-photo-placeholder">
+      <i class="fa fa-user"></i>
+    </div>
+
+    <h1 class="hero-name">Alex <span>Morgan</span></h1>
+
+    <p class="hero-tagline">MSc Graduate &nbsp;·&nbsp; <span>Aspiring PhD Researcher</span></p>
+
+    <div class="hero-divider"></div>
+
+    <div class="hero-connect">
+      <p>Let's Connect</p>
+      <div class="hero-socials">
+        <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+        <a href="#" title="ResearchGate"><i class="fab fa-researchgate"></i></a>
+        <a href="#" title="ORCID"><i class="fab fa-orcid"></i></a>
+        <a href="#" title="Twitter / X"><i class="fab fa-x-twitter"></i></a>
+        <a href="mailto:alex@university.edu" title="Email"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll" onclick="document.getElementById('main-layout').scrollIntoView({behavior:'smooth'})">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     MAIN LAYOUT — Sidebar + Content
+════════════════════════════════════════ -->
+<div id="main-layout">
+
+  <!-- ── SIDEBAR ── -->
+  <aside id="sidebar">
+    <div class="sidebar-top">
+      <div class="sidebar-photo"><i class="fa fa-user"></i></div>
+      <div class="sidebar-name">Alex Morgan</div>
+      <div class="sidebar-tagline">Mathematical Theory of<br>Graph Neural Networks</div>
+      <span class="sidebar-badge">Open to PhD Opportunities</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Navigation</div>
+      <a href="#about" class="nav-link active"><i class="fas fa-user-circle"></i> About</a>
+      <a href="#interests" class="nav-link"><i class="fas fa-atom"></i> Research Interests</a>
+      <a href="#education" class="nav-link"><i class="fas fa-university"></i> Education</a>
+      <a href="#research-exp" class="nav-link"><i class="fas fa-flask"></i> Research Experience</a>
+      <a href="#work-exp" class="nav-link"><i class="fas fa-briefcase"></i> Work Experience</a>
+      <a href="#projects" class="nav-link"><i class="fas fa-project-diagram"></i> Projects</a>
+      <a href="#publications" class="nav-link"><i class="fas fa-file-alt"></i> Publications</a>
+      <a href="#skills" class="nav-link"><i class="fas fa-code"></i> Skills</a>
+      <a href="#conferences" class="nav-link"><i class="fas fa-chalkboard-teacher"></i> Conferences</a>
+      <a href="#certifications" class="nav-link"><i class="fas fa-certificate"></i> Certifications</a>
+      <a href="#awards" class="nav-link"><i class="fas fa-trophy"></i> Awards</a>
+      <a href="#contact" class="nav-link"><i class="fas fa-paper-plane"></i> Contact</a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="sidebar-bottom-label">Contact</div>
+      <div class="sidebar-contacts">
+        <a href="mailto:alex@university.edu"><i class="fas fa-envelope"></i> alex@university.edu</a>
+        <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i> linkedin.com/in/alexmorgan</a>
+        <a href="#" target="_blank"><i class="fab fa-github"></i> github.com/alexmorgan</a>
+        <a href="#" target="_blank"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
+      </div>
+      <a href="#" class="cv-btn" download>
+        <i class="fas fa-download"></i> Download CV
+      </a>
+    </div>
+  </aside>
+
+  <!-- ── CONTENT ── -->
+  <main id="content">
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-label">01 — Introduction</div>
+      <h2 class="section-title">About <span>Me</span></h2>
+      <div class="about-grid">
+        <div class="about-bio">
+          <p>
+            I am <span class="about-highlight">Alex Morgan</span>, an MSc graduate in Computer Science
+            from the University of Example, specializing in the mathematical foundations of
+            Graph Neural Networks. My research sits at the intersection of algebraic topology,
+            spectral graph theory, and deep learning.
+          </p>
+          <p>
+            I am passionate about building rigorous theoretical frameworks that explain
+            <span class="about-highlight">why</span> GNNs work — not just how. My MSc thesis
+            explored the expressive power of message-passing neural networks through the lens
+            of Weisfeiler-Leman graph isomorphism tests.
+          </p>
+          <p>
+            I am currently seeking PhD opportunities in theoretical machine learning,
+            graph representation learning, or geometric deep learning.
+          </p>
+          <div class="research-statement">
+            "My goal is to develop a unified mathematical theory for Graph Neural Networks
+            that bridges combinatorics, topology, and learning theory — enabling principled
+            design of more expressive and interpretable architectures."
+          </div>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-number">3+</div>
+            <div class="stat-label">Research Projects</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">2</div>
+            <div class="stat-label">Publications</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">5+</div>
+            <div class="stat-label">Conferences</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Awards</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH INTERESTS -->
+    <section id="interests">
+      <div class="section-label">02 — Focus Areas</div>
+      <h2 class="section-title">Research <span>Interests</span></h2>
+      <div class="interests-grid">
+        <div class="interest-card">
+          <div class="interest-icon"><i class="fas fa-project-diagram"></i></div>
+          <div class="interest-title">Graph Neural Network Theory</div>
+          <div class="interest-desc">Expressive power, universality, and limitations of GNN architectures through algebraic and combinatorial lenses.</div>
+        </div>
+        <div class="interest-card">
+          <div class="interest-icon"><i class="fas fa-wave-square"></i></div>
+          <div class="interest-title">Spectral Graph Theory</div>
+          <div class="interest-desc">Eigenvalue analysis of graph Laplacians and their role in designing spectral convolution operators.</div>
+        </div>
+        <div class="interest-card">
+          <div class="interest-icon"><i class="fas fa-shapes"></i></div>
+          <div class="interest-title">Geometric Deep Learning</div>
+          <div class="interest-desc">Symmetry, equivariance, and invariance principles applied to learning on non-Euclidean data structures.</div>
+        </div>
+        <div class="interest-card">
+          <div class="interest-icon"><i class="fas fa-infinity"></i></div>
+          <div class="interest-title">Topological Data Analysis</div>
+          <div class="interest-desc">Persistent homology and simplicial complexes as tools for understanding data shape and GNN expressivity.</div>
+        </div>
+        <div class="interest-card">
+          <div class="interest-icon"><i class="fas fa-brain"></i></div>
+          <div class="interest-title">Graph Representation Learning</div>
+          <div class="interest-desc">Learning low-dimensional embeddings of graphs and nodes for downstream reasoning tasks.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="section-label">03 — Academic Background</div>
+      <h2 class="section-title"><span>Education</span></h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2022 — 2024</div>
+          <div class="timeline-title">MSc in Computer Science</div>
+          <div class="timeline-sub">University of Example &nbsp;·&nbsp; London, UK</div>
+          <div class="timeline-body">
+            Thesis: <em>"On the Expressive Power of Message-Passing Neural Networks: A Weisfeiler-Leman Perspective"</em><br>
+            Supervisor: Prof. Jane Doe &nbsp;·&nbsp; Distinction
+          </div>
+          <span class="timeline-tag">Graph Theory</span>
+          <span class="timeline-tag">Deep Learning</span>
+          <span class="timeline-tag">Algebraic Topology</span>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2019 — 2022</div>
+          <div class="timeline-title">BSc in Mathematics</div>
+          <div class="timeline-sub">Sample University &nbsp;·&nbsp; Manchester, UK</div>
+          <div class="timeline-body">
+            Focused on pure mathematics, discrete structures, and probability theory.<br>
+            First Class Honours &nbsp;·&nbsp; GPA: 3.9 / 4.0
+          </div>
+          <span class="timeline-tag">Pure Mathematics</span>
+          <span class="timeline-tag">Discrete Structures</span>
+          <span class="timeline-tag">Probability</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH EXPERIENCE -->
+    <section id="research-exp">
+      <div class="section-label">04 — Research</div>
+      <h2 class="section-title">Research <span>Experience</span></h2>
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-title">Graduate Research Assistant</div>
+            <div class="exp-org">Graph Learning Lab, University of Example</div>
+          </div>
+          <div class="exp-date">Sep 2023 — Jun 2024</div>
+        </div>
+        <div class="exp-body">
+          <ul>
+            <li>Investigated theoretical connections between WL graph isomorphism and GNN expressivity under the supervision of Prof. Jane Doe.</li>
+            <li>Derived novel bounds on the distinguishing power of k-dimensional WL tests applied to higher-order GNN architectures.</li>
+            <li>Contributed to a workshop paper accepted at NeurIPS GRL Workshop 2023.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-title">Undergraduate Research Intern</div>
+            <div class="exp-org">Computational Mathematics Group, Sample University</div>
+          </div>
+          <div class="exp-date">Jun 2022 — Aug 2022</div>
+        </div>
+        <div class="exp-body">
+          <ul>
+            <li>Studied spectral properties of random graphs and their implications for convergence of graph signal processing algorithms.</li>
+            <li>Implemented numerical experiments in Python and contributed to internal technical reports.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK EXPERIENCE -->
+    <section id="work-exp">
+      <div class="section-label">05 — Industry</div>
+      <h2 class="section-title">Work <span>Experience</span></h2>
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-title">Data Science Intern</div>
+            <div class="exp-org">TechCorp Analytics &nbsp;·&nbsp; London, UK</div>
+          </div>
+          <div class="exp-date">Jun 2021 — Aug 2021</div>
+        </div>
+        <div class="exp-body">
+          <ul>
+            <li>Built graph-based recommendation models using PyTorch Geometric to improve content discovery.</li>
+            <li>Reduced inference latency by 30% through sparse graph batching optimizations.</li>
+            <li>Presented findings to a team of 12 data scientists and engineers.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-card">
+        <div class="exp-header">
+          <div>
+            <div class="exp-title">Teaching Assistant — Linear Algebra</div>
+            <div class="exp-org">Sample University &nbsp;·&nbsp; Manchester, UK</div>
+          </div>
+          <div class="exp-date">Jan 2022 — May 2022</div>
+        </div>
+        <div class="exp-body">
+          Assisted in running weekly tutorials and marking assignments for a cohort of 80 second-year mathematics students.
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-label">06 — Work</div>
+      <h2 class="section-title">Research <span>Projects</span></h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-top">
+            <div class="project-icon"><i class="fas fa-project-diagram"></i></div>
+            <div class="project-links">
+              <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+              <a href="#" title="Paper"><i class="fas fa-file-pdf"></i></a>
+            </div>
+          </div>
+          <div class="project-title">WL-GNN Expressivity Analyser</div>
+          <div class="project-desc">A Python library that benchmarks the distinguishing power of GNN architectures against k-WL hierarchies on standard graph datasets.</div>
+          <div class="project-tags">
+            <span class="tag">PyTorch Geometric</span>
+            <span class="tag">Graph Theory</span>
+            <span class="tag">Python</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-top">
+            <div class="project-icon"><i class="fas fa-wave-square"></i></div>
+            <div class="project-links">
+              <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+          </div>
+          <div class="project-title">Spectral GNN Convergence Study</div>
+          <div class="project-desc">Empirical and theoretical analysis of spectral GNN convergence rates on Erdős–Rényi and Barabási–Albert random graph families.</div>
+          <div class="project-tags">
+            <span class="tag">Spectral Theory</span>
+            <span class="tag">NumPy</span>
+            <span class="tag">NetworkX</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-top">
+            <div class="project-icon"><i class="fas fa-shapes"></i></div>
+            <div class="project-links">
+              <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+              <a href="#" title="Demo"><i class="fas fa-external-link-alt"></i></a>
+            </div>
+          </div>
+          <div class="project-title">Topological GNN Benchmark</div>
+          <div class="project-desc">Benchmark suite comparing message-passing, simplicial, and cellular GNNs on graph classification tasks with topological features.</div>
+          <div class="project-tags">
+            <span class="tag">TDA</span>
+            <span class="tag">PyTorch</span>
+            <span class="tag">Gudhi</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section id="publications">
+      <div class="section-label">07 — Research Output</div>
+      <h2 class="section-title"><span>Publications</span></h2>
+
+      <div class="pub-item">
+        <div class="pub-year">2024</div>
+        <div class="pub-content">
+          <div class="pub-title">On the Expressive Power of Higher-Order Weisfeiler-Leman Graph Neural Networks</div>
+          <div class="pub-authors">Alex Morgan, Jane Doe, John Smith</div>
+          <div class="pub-venue">NeurIPS 2024 Workshop on Graph Representation Learning</div>
+          <div class="pub-links">
+            <a href="#" class="pub-link">PDF</a>
+            <a href="#" class="pub-link">arXiv</a>
+            <a href="#" class="pub-link">Cite</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <div class="pub-year">2023</div>
+        <div class="pub-content">
+          <div class="pub-title">Spectral Convergence of Graph Convolutional Networks on Random Graphs</div>
+          <div class="pub-authors">Alex Morgan, Jane Doe</div>
+          <div class="pub-venue">ICML 2023 Workshop on Topology, Algebra, and Geometry in Machine Learning</div>
+          <div class="pub-links">
+            <a href="#" class="pub-link">PDF</a>
+            <a href="#" class="pub-link">arXiv</a>
+            <a href="#" class="pub-link">Cite</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div class="section-label">08 — Toolkit</div>
+      <h2 class="section-title">Skills &amp; <span>Tools</span></h2>
+      <div class="skills-grid">
+        <div>
+          <div class="skill-group-title">Research Methods</div>
+          <div class="skill-items">
+            <span class="skill-item">Mathematical Proof</span>
+            <span class="skill-item">Literature Review</span>
+            <span class="skill-item">Experimental Design</span>
+            <span class="skill-item">Statistical Analysis</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">Programming</div>
+          <div class="skill-items">
+            <span class="skill-item">Python</span>
+            <span class="skill-item">R</span>
+            <span class="skill-item">MATLAB</span>
+            <span class="skill-item">Julia</span>
+            <span class="skill-item">LaTeX</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">ML / Graph Libraries</div>
+          <div class="skill-items">
+            <span class="skill-item">PyTorch</span>
+            <span class="skill-item">PyTorch Geometric</span>
+            <span class="skill-item">DGL</span>
+            <span class="skill-item">NetworkX</span>
+            <span class="skill-item">Gudhi</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">Mathematics</div>
+          <div class="skill-items">
+            <span class="skill-item">Graph Theory</span>
+            <span class="skill-item">Spectral Theory</span>
+            <span class="skill-item">Algebraic Topology</span>
+            <span class="skill-item">Linear Algebra</span>
+            <span class="skill-item">Probability Theory</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">Languages</div>
+          <div class="skill-items">
+            <span class="skill-item">English (Native)</span>
+            <span class="skill-item">French (B2)</span>
+            <span class="skill-item">German (A2)</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">Tools</div>
+          <div class="skill-items">
+            <span class="skill-item">Git / GitHub</span>
+            <span class="skill-item">Overleaf</span>
+            <span class="skill-item">Jupyter</span>
+            <span class="skill-item">Weights & Biases</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONFERENCES -->
+    <section id="conferences">
+      <div class="section-label">09 — Community</div>
+      <h2 class="section-title">Conferences &amp; <span>Events</span></h2>
+      <div class="conf-grid">
+        <div class="conf-card">
+          <div class="conf-header">
+            <span class="conf-year">2024</span>
+            <span class="conf-role">Presenter</span>
+          </div>
+          <div class="conf-name">NeurIPS 2024</div>
+          <div class="conf-location"><i class="fas fa-map-marker-alt" style="color:var(--accent);margin-right:0.4rem;font-size:0.7rem"></i>Vancouver, Canada</div>
+        </div>
+        <div class="conf-card">
+          <div class="conf-header">
+            <span class="conf-year">2023</span>
+            <span class="conf-role">Poster</span>
+          </div>
+          <div class="conf-name">ICML 2023</div>
+          <div class="conf-location"><i class="fas fa-map-marker-alt" style="color:var(--accent);margin-right:0.4rem;font-size:0.7rem"></i>Honolulu, USA</div>
+        </div>
+        <div class="conf-card">
+          <div class="conf-header">
+            <span class="conf-year">2023</span>
+            <span class="conf-role">Attendee</span>
+          </div>
+          <div class="conf-name">ICLR 2023</div>
+          <div class="conf-location"><i class="fas fa-map-marker-alt" style="color:var(--accent);margin-right:0.4rem;font-size:0.7rem"></i>Kigali, Rwanda</div>
+        </div>
+        <div class="conf-card">
+          <div class="conf-header">
+            <span class="conf-year">2023</span>
+            <span class="conf-role">Attendee</span>
+          </div>
+          <div class="conf-name">Graph Learning Summer School</div>
+          <div class="conf-location"><i class="fas fa-map-marker-alt" style="color:var(--accent);margin-right:0.4rem;font-size:0.7rem"></i>Oxford, UK</div>
+        </div>
+        <div class="conf-card">
+          <div class="conf-header">
+            <span class="conf-year">2022</span>
+            <span class="conf-role">Attendee</span>
+          </div>
+          <div class="conf-name">LoG 2022 (Learning on Graphs)</div>
+          <div class="conf-location"><i class="fas fa-map-marker-alt" style="color:var(--accent);margin-right:0.4rem;font-size:0.7rem"></i>Virtual</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+    <section id="certifications">
+      <div class="section-label">10 — Learning</div>
+      <h2 class="section-title">Certifications &amp; <span>Courses</span></h2>
+      <div class="cert-list">
+        <div class="cert-item">
+          <div class="cert-icon"><i class="fas fa-brain"></i></div>
+          <div class="cert-info">
+            <div class="cert-name">Deep Learning Specialization</div>
+            <div class="cert-provider">Coursera · DeepLearning.AI</div>
+          </div>
+          <div class="cert-year">2023</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-icon"><i class="fas fa-project-diagram"></i></div>
+          <div class="cert-info">
+            <div class="cert-name">Graph Neural Networks — CS224W</div>
+            <div class="cert-provider">Stanford Online</div>
+          </div>
+          <div class="cert-year">2023</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-icon"><i class="fas fa-chart-line"></i></div>
+          <div class="cert-info">
+            <div class="cert-name">Probabilistic Graphical Models</div>
+            <div class="cert-provider">Coursera · Stanford University</div>
+          </div>
+          <div class="cert-year">2022</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-icon"><i class="fas fa-shapes"></i></div>
+          <div class="cert-info">
+            <div class="cert-name">Algebraic Topology — Short Course</div>
+            <div class="cert-provider">London Mathematical Society</div>
+          </div>
+          <div class="cert-year">2022</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AWARDS -->
+    <section id="awards">
+      <div class="section-label">11 — Recognition</div>
+      <h2 class="section-title">Awards &amp; <span>Honors</span></h2>
+      <div class="awards-list">
+        <div class="award-item">
+          <div class="award-trophy">🏆</div>
+          <div>
+            <div class="award-title">Best MSc Thesis Award — Computer Science</div>
+            <div class="award-org">University of Example</div>
+            <div class="award-year">2024</div>
+          </div>
+        </div>
+        <div class="award-item">
+          <div class="award-trophy">🎓</div>
+          <div>
+            <div class="award-title">Dean's Excellence Scholarship</div>
+            <div class="award-org">University of Example — Full tuition award</div>
+            <div class="award-year">2022</div>
+          </div>
+        </div>
+        <div class="award-item">
+          <div class="award-trophy">🥇</div>
+          <div>
+            <div class="award-title">First Place — Undergraduate Mathematics Prize</div>
+            <div class="award-org">Sample University · Department of Mathematics</div>
+            <div class="award-year">2022</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-label">12 — Get in Touch</div>
+      <h2 class="section-title">Let's <span>Connect</span></h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p>
+            I am actively looking for PhD opportunities in theoretical machine learning,
+            graph learning, and geometric deep learning starting in 2025.
+            If you are a potential supervisor or collaborator, I would love to hear from you.
+          </p>
+          <div class="contact-items">
+            <a href="mailto:alex@university.edu" class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <span>alex@university.edu</span>
+            </a>
+            <a href="#" class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>London, United Kingdom</span>
+            </a>
+            <a href="#" class="contact-item" download>
+              <i class="fas fa-file-pdf"></i>
+              <span>Download Full CV (PDF)</span>
+            </a>
+          </div>
+        </div>
+        <div>
+          <div class="social-grid">
+            <a href="#" class="social-card" target="_blank">
+              <i class="fab fa-github"></i>
+              <div class="social-card-info">
+                <span class="social-card-name">GitHub</span>
+                <span class="social-card-handle">@alexmorgan</span>
+              </div>
+            </a>
+            <a href="#" class="social-card" target="_blank">
+              <i class="fab fa-linkedin-in"></i>
+              <div class="social-card-info">
+                <span class="social-card-name">LinkedIn</span>
+                <span class="social-card-handle">in/alexmorgan</span>
+              </div>
+            </a>
+            <a href="#" class="social-card" target="_blank">
+              <i class="fas fa-graduation-cap"></i>
+              <div class="social-card-info">
+                <span class="social-card-name">Google Scholar</span>
+                <span class="social-card-handle">Alex Morgan</span>
+              </div>
+            </a>
+            <a href="#" class="social-card" target="_blank">
+              <i class="fab fa-researchgate"></i>
+              <div class="social-card-info">
+                <span class="social-card-name">ResearchGate</span>
+                <span class="social-card-handle">Alex_Morgan</span>
+              </div>
+            </a>
+            <a href="#" class="social-card" target="_blank">
+              <i class="fab fa-orcid"></i>
+              <div class="social-card-info">
+                <span class="social-card-name">ORCID</span>
+                <span class="social-card-handle">0000-0000-0000</span>
+              </div>
+            </a>
+            <a href="#" class="social-card" target="_blank">
+              <i class="fab fa-x-twitter"></i>
+              <div class="social-card-info">
+                <span class="social-card-name">Twitter / X</span>
+                <span class="social-card-handle">@alexmorgan_ml</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2024 Alex Morgan</span>
+  <span>Built for GitHub Pages &nbsp;·&nbsp; Mathematical Theory of GNNs</span>
+</footer>
+
+<!-- ═══════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════ -->
+<script>
+// ── Animated Graph Canvas (Hero) ──
+const canvas = document.getElementById('graph-canvas');
+const ctx = canvas.getContext('2d');
+
+let nodes = [], edges = [], W, H;
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function initGraph() {
+  nodes = [];
+  edges = [];
+  const count = Math.floor((W * H) / 18000);
+  for (let i = 0; i < count; i++) {
+    nodes.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      r: Math.random() * 2.5 + 1.5,
+      pulse: Math.random() * Math.PI * 2,
+    });
+  }
+  // Create edges (sparse)
+  for (let i = 0; i < nodes.length; i++) {
+    const connections = Math.floor(Math.random() * 3);
+    for (let c = 0; c < connections; c++) {
+      const j = Math.floor(Math.random() * nodes.length);
+      if (j !== i) edges.push([i, j]);
+    }
+  }
+}
+
+function drawGraph(t) {
+  ctx.clearRect(0, 0, W, H);
+
+  // Draw edges
+  edges.forEach(([i, j]) => {
+    const a = nodes[i], b = nodes[j];
+    const dist = Math.hypot(a.x - b.x, a.y - b.y);
+    if (dist > 300) return;
+    const alpha = (1 - dist / 300) * 0.18;
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(b.x, b.y);
+    ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`;
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+  });
+
+  // Draw nodes
+  nodes.forEach(n => {
+    n.pulse += 0.02;
+    const glow = 0.5 + 0.5 * Math.sin(n.pulse);
+    const alpha = 0.3 + 0.5 * glow;
+
+    // Outer glow
+    const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 5);
+    grad.addColorStop(0, `rgba(0, 212, 255, ${alpha * 0.3})`);
+    grad.addColorStop(1, 'transparent');
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r * 5, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Core
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(0, 212, 255, ${alpha})`;
+    ctx.fill();
+
+    // Move
+    n.x += n.vx;
+    n.y += n.vy;
+    if (n.x < 0 || n.x > W) n.vx *= -1;
+    if (n.y < 0 || n.y > H) n.vy *= -1;
+  });
+
+  // Dynamic proximity edges
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 120) {
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.strokeStyle = `rgba(168, 255, 62, ${(1 - d / 120) * 0.12})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+
+  requestAnimationFrame(drawGraph);
+}
+
+resize();
+initGraph();
+requestAnimationFrame(drawGraph);
+window.addEventListener('resize', () => { resize(); initGraph(); });
+
+// ── Scroll-triggered section reveal ──
+const sections = document.querySelectorAll('#content section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.08 });
+sections.forEach(s => observer.observe(s));
+
+// ── Active nav link on scroll ──
+const navLinks = document.querySelectorAll('.nav-link');
+const allSections = document.querySelectorAll('section[id]');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.4 });
+
+allSections.forEach(s => navObserver.observe(s));
+
+// ── Mobile sidebar ──
+const hamburger = document.getElementById('hamburger');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+
+hamburger.addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+});
+
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+});
+
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+  });
+});
+</script>
+
+</body>
+</html>
