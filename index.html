@@ -324,7 +324,7 @@
     .award-cert-link:hover { background: rgba(168,255,62,0.08); }
 
     /* ── CV ── */
-    .cv-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2.3rem; display: flex; align-items: center; gap: 2rem; max-width: 680px; position: relative; z-index: 1; }
+    .cv-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2.3rem; display: flex; align-items: center; gap: 2rem; position: relative; z-index: 1; }
     .cv-icon { font-size: 3rem; color: var(--accent); flex-shrink: 0; }
     .cv-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700; color: var(--fg); margin-bottom: 0.38rem; }
     .cv-info p { font-size: 0.81rem; color: var(--muted); line-height: 1.65; }
@@ -517,7 +517,7 @@
         <div class="exp-card">
           <div class="exp-card-header">
             <div class="exp-card-left">
-              <div class="exp-card-title">k-Domination Vertex Connectivity of Connected Graphs</div>
+              <div class="exp-card-title">k-Domination Vertex Connectivity of Connected Graphs <a href="#" target="_blank" style="font-size: 0.85rem; color: var(--accent2); text-decoration: none;"><i class="fas fa-external-link-alt"></i></a></div>
               <div class="exp-card-org">MIT World Peace University, Pune, India</div>
               <div class="exp-card-org" style="font-style: normal; font-size: 0.85rem; color: var(--muted);">Supervisor: Prof. Amol Narke</div>
             </div>
@@ -534,7 +534,7 @@
         <div class="exp-card">
           <div class="exp-card-header">
             <div class="exp-card-left">
-              <div class="exp-card-title">Applications of Number Theory in Cryptography</div>
+              <div class="exp-card-title">Applications of Number Theory in Cryptography <a href="#" target="_blank" style="font-size: 0.85rem; color: var(--accent2); text-decoration: none;"><i class="fas fa-external-link-alt"></i></a></div>
               <div class="exp-card-org">M. S. Ramaiah University of Applied Sciences, Bengaluru, India</div>
               <div class="exp-card-org" style="font-style: normal; font-size: 0.85rem; color: var(--muted);">Supervisor: Dr. S. Chandankumar</div>
             </div>
@@ -585,33 +585,53 @@
         <circle cx="110" cy="55" r="5" fill="#00d4ff"/><circle cx="40" cy="125" r="4" fill="#a8ff3e"/><circle cx="180" cy="125" r="4" fill="#a8ff3e"/><circle cx="110" cy="165" r="4" fill="#00d4ff"/>
         <line x1="110" y1="55" x2="40" y2="125" stroke="#00d4ff" stroke-width="1.5"/><line x1="110" y1="55" x2="180" y2="125" stroke="#00d4ff" stroke-width="1.5"/><line x1="40" y1="125" x2="110" y2="165" stroke="#a8ff3e" stroke-width="1.2"/><line x1="180" y1="125" x2="110" y2="165" stroke="#a8ff3e" stroke-width="1.2"/><line x1="40" y1="125" x2="180" y2="125" stroke="#00d4ff" stroke-width="0.8"/>
       </svg>
-      <h2 class="section-title">Research <em>Projects</em></h2>
+      <h2 class="section-title">Projects</h2>
       <div class="projects-list">
-        <div class="project-card">
-          <div class="project-icon"><i class="fas fa-project-diagram"></i></div>
-          <div class="project-right">
-            <div class="project-header"><div class="project-title">WL–GNN Expressivity Analyser</div><div class="project-links"><a href="#" title="GitHub"><i class="fab fa-github"></i></a><a href="#" title="Paper"><i class="fas fa-file-pdf"></i></a></div></div>
-            <div class="project-desc">A Python library benchmarking the distinguishing power of GNN architectures against k-WL hierarchies on standard graph datasets, with expressivity boundary visualisations.</div>
-            <div class="project-tags"><span class="tag">PyTorch Geometric</span><span class="tag">Graph Theory</span><span class="tag">Python</span></div>
-          </div>
-        </div>
-        <div class="project-card">
-          <div class="project-icon"><i class="fas fa-wave-square"></i></div>
-          <div class="project-right">
-            <div class="project-header"><div class="project-title">Spectral GNN Convergence Study</div><div class="project-links"><a href="#" title="GitHub"><i class="fab fa-github"></i></a></div></div>
-            <div class="project-desc">Empirical and theoretical analysis of spectral GNN convergence rates on Erdős–Rényi and Barabási–Albert random graph families, deriving upper bounds on approximation error.</div>
-            <div class="project-tags"><span class="tag">Spectral Theory</span><span class="tag">NumPy</span><span class="tag">NetworkX</span></div>
-          </div>
-        </div>
-        <div class="project-card">
-          <div class="project-icon"><i class="fas fa-shapes"></i></div>
-          <div class="project-right">
-            <div class="project-header"><div class="project-title">Topological GNN Benchmark</div><div class="project-links"><a href="#" title="GitHub"><i class="fab fa-github"></i></a><a href="#" title="Demo"><i class="fas fa-external-link-alt"></i></a></div></div>
-            <div class="project-desc">Benchmark comparing message-passing, simplicial, and cellular GNNs on graph classification tasks augmented with topological features from persistent homology.</div>
-            <div class="project-tags"><span class="tag">TDA</span><span class="tag">PyTorch</span><span class="tag">Gudhi</span></div>
-          </div>
-        </div>
-      </div>
+  <div class="project-card">
+    <div class="project-icon"><i class="fas fa-eye"></i></div>
+    <div class="project-right">
+      <div class="project-header"><div class="project-title">Object Detection using YOLO</div><div class="project-links"><a href="#" title="GitHub"><i class="fab fa-github"></i></a></div></div>
+      <div class="project-desc">Built a real-time object detection system for crime detection and crowd management using city surveillance footage, applying CNNs and the YOLO algorithm with automated alert dispatch to authorities via Pushbullet.</div>
+      <div class="project-tags"><span class="tag">YOLO</span><span class="tag">Deep Learning</span><span class="tag">CNN</span><span class="tag">Python</span><span class="tag">OpenCV</span></div>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="project-icon"><i class="fas fa-comments"></i></div>
+    <div class="project-right">
+      <div class="project-header"><div class="project-title">Sentiment Analysis on Large-Scale Text Data</div><div class="project-links"><a href="#" title="GitHub"><i class="fab fa-github"></i></a></div></div>
+      <div class="project-desc">Analyzed close to 500,000 fine food reviews spanning over a decade, applying text preprocessing, sentiment scoring, and visualization to extract meaningful patterns from unstructured text at scale.</div>
+      <div class="project-tags"><span class="tag">NLP</span><span class="tag">NLTK</span><span class="tag">TextBlob</span><span class="tag">VaderSentiment</span><span class="tag">Python</span></div>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="project-icon"><i class="fas fa-eye-slash"></i></div>
+    <div class="project-right">
+      <div class="project-header"><div class="project-title">Morse Code Detection via Eye Blinks</div><div class="project-links"><a href="#" title="GitHub"><i class="fab fa-github"></i></a></div></div>
+      <div class="project-desc">Built a real-time Morse code translator that tracks eye blinks using facial landmark detection, converting blink patterns into characters without any physical input device.</div>
+      <div class="project-tags"><span class="tag">OpenCV</span><span class="tag">MediaPipe</span><span class="tag">Python</span><span class="tag">Computer Vision</span></div>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="project-icon"><i class="fas fa-hand-pointer"></i></div>
+    <div class="project-right">
+      <div class="project-header"><div class="project-title">Virtual Mouse</div><div class="project-links"><a href="#" title="GitHub"><i class="fab fa-github"></i></a></div></div>
+      <div class="project-desc">Turned hand gestures into mouse controls using real-time hand landmark recognition, mapping movements and gestures directly to cursor actions without touching a mouse.</div>
+      <div class="project-tags"><span class="tag">OpenCV</span><span class="tag">MediaPipe</span><span class="tag">PyAutoGUI</span><span class="tag">Python</span></div>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="project-icon"><i class="fas fa-chess-board"></i></div>
+    <div class="project-right">
+      <div class="project-header"><div class="project-title">Tic-Tac-Toe vs AI</div><div class="project-links"><a href="#" title="GitHub"><i class="fab fa-github"></i></a></div></div>
+      <div class="project-desc">Built a graphical Tic-Tac-Toe game with an unbeatable AI opponent powered by the Minimax algorithm, handling full game state management for optimal move selection at every step.</div>
+      <div class="project-tags"><span class="tag">Minimax Algorithm</span><span class="tag">Python</span><span class="tag">Pygame</span></div>
+    </div>
+  </div>
+</div>
     </section>
 
     <!-- PUBLICATIONS -->
@@ -655,51 +675,31 @@
       <div class="conf-cards">
         <div class="conf-card">
           <div class="conf-img"><!-- <img src="neurips2024.jpg" alt="NeurIPS 2024"> --><i class="fas fa-chalkboard-teacher"></i></div>
-          <span class="conf-year">2024</span>
-          <span class="conf-role-badge">Presenter</span>
+          <span class="conf-year">June 2025</span>
+          <span class="conf-role-badge">Oral Presenter</span>
           <div class="conf-info">
-            <div class="conf-name">NeurIPS 2024</div>
-            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>Vancouver, Canada</div>
+            <div class="conf-name">RAPIAM-2025</div>
+            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>JSPM University, Pune, India</div>
           </div>
           <a href="#" class="conf-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
         </div>
         <div class="conf-card">
-          <div class="conf-img"><!-- <img src="icml2023.jpg" alt="ICML 2023"> --><i class="fas fa-chalkboard-teacher"></i></div>
-          <span class="conf-year">2023</span>
-          <span class="conf-role-badge">Poster</span>
+          <div class="conf-img"><!-- <img src="icml2023.jpg" alt="ICML 2023"> --><i class="fas fa-flask"></i></div>
+          <span class="conf-year">May 2023</span>
+          <span class="conf-role-badge">Participant</span>
           <div class="conf-info">
-            <div class="conf-name">ICML 2023</div>
-            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>Honolulu, USA</div>
+            <div class="conf-name">Summer School on PDEs</div>
+            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>Christ University, Bengaluru, India</div>
           </div>
           <a href="#" class="conf-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
         </div>
         <div class="conf-card">
-          <div class="conf-img"><!-- <img src="iclr2023.jpg" alt="ICLR 2023"> --><i class="fas fa-chalkboard-teacher"></i></div>
-          <span class="conf-year">2023</span>
-          <span class="conf-role-badge">Attendee</span>
+          <div class="conf-img"><!-- <img src="iclr2023.jpg" alt="ICLR 2023"> --><i class="fas fa-landmark"></i></div>
+          <span class="conf-year">June 2021</span>
+          <span class="conf-role-badge">Participant</span>
           <div class="conf-info">
-            <div class="conf-name">ICLR 2023</div>
-            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>Kigali, Rwanda</div>
-          </div>
-          <a href="#" class="conf-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
-        </div>
-        <div class="conf-card">
-          <div class="conf-img"><!-- <img src="glss2023.jpg" alt="Summer School"> --><i class="fas fa-chalkboard-teacher"></i></div>
-          <span class="conf-year">2023</span>
-          <span class="conf-role-badge">Attendee</span>
-          <div class="conf-info">
-            <div class="conf-name">Graph Learning Summer School</div>
-            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>Oxford, UK</div>
-          </div>
-          <a href="#" class="conf-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
-        </div>
-        <div class="conf-card">
-          <div class="conf-img"><!-- <img src="log2022.jpg" alt="LoG 2022"> --><i class="fas fa-chalkboard-teacher"></i></div>
-          <span class="conf-year">2022</span>
-          <span class="conf-role-badge">Attendee</span>
-          <div class="conf-info">
-            <div class="conf-name">LoG 2022 — Learning on Graphs</div>
-            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>Virtual</div>
+            <div class="conf-name">Algorithms in the Indic Tradition</div>
+            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>National Institute of Advanced Studies, Bengaluru, India</div>
           </div>
           <a href="#" class="conf-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
         </div>
@@ -707,46 +707,57 @@
     </section>
 
     <!-- CERTIFICATIONS -->
-    <section id="certifications">
-      <div class="section-label">10 — Learning</div>
-      <h2 class="section-title">Certifications &amp; <em>Courses</em></h2>
-      <div class="cert-list">
-        <div class="cert-item"><div class="cert-icon"><i class="fas fa-brain"></i></div><div class="cert-info"><div class="cert-name">Deep Learning Specialization</div><div class="cert-provider">Coursera &nbsp;·&nbsp; DeepLearning.AI</div></div><div class="cert-right"><span class="cert-year">2023</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
-        <div class="cert-item"><div class="cert-icon"><i class="fas fa-project-diagram"></i></div><div class="cert-info"><div class="cert-name">Graph Neural Networks — CS224W</div><div class="cert-provider">Stanford Online</div></div><div class="cert-right"><span class="cert-year">2023</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
-        <div class="cert-item"><div class="cert-icon"><i class="fas fa-chart-line"></i></div><div class="cert-info"><div class="cert-name">Probabilistic Graphical Models</div><div class="cert-provider">Coursera &nbsp;·&nbsp; Stanford University</div></div><div class="cert-right"><span class="cert-year">2022</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
-        <div class="cert-item"><div class="cert-icon"><i class="fas fa-shapes"></i></div><div class="cert-info"><div class="cert-name">Algebraic Topology — Short Course</div><div class="cert-provider">London Mathematical Society</div></div><div class="cert-right"><span class="cert-year">2022</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
-      </div>
-    </section>
+  <section id="certifications">
+    <h2 class="section-title">Certifications &amp; <em>Courses</em></h2>
+    <div class="cert-list">
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-brain"></i></div><div class="cert-info"><div class="cert-name">Deep Learning Fundamentals with Keras</div><div class="cert-provider">edX &nbsp;·&nbsp; IBM</div></div><div class="cert-right"><span class="cert-year">Jan 2024</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-robot"></i></div><div class="cert-info"><div class="cert-name">Generative AI for Business Leaders</div><div class="cert-provider">edX</div></div><div class="cert-right"><span class="cert-year">Jan 2024</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-project-diagram"></i></div><div class="cert-info"><div class="cert-name">Introduction to Graph Theory</div><div class="cert-provider">Coursera &nbsp;·&nbsp; University of San Diego</div></div><div class="cert-right"><span class="cert-year">Dec 2023</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-chart-bar"></i></div><div class="cert-info"><div class="cert-name">Data Science: R Basics</div><div class="cert-provider">edX &nbsp;·&nbsp; HarvardX</div></div><div class="cert-right"><span class="cert-year">Dec 2023</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-tools"></i></div><div class="cert-info"><div class="cert-name">Data Sciences: Productivity Tools</div><div class="cert-provider">edX &nbsp;·&nbsp; HarvardX</div></div><div class="cert-right"><span class="cert-year">Dec 2023</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-microchip"></i></div><div class="cert-info"><div class="cert-name">Introduction to AI</div><div class="cert-provider">Coursera &nbsp;·&nbsp; IBM</div></div><div class="cert-right"><span class="cert-year">June 2023</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-shield-alt"></i></div><div class="cert-info"><div class="cert-name">Python and Cybersecurity Bootcamp</div><div class="cert-provider">Shape AI</div></div><div class="cert-right"><span class="cert-year">May 2023</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-square-root-alt"></i></div><div class="cert-info"><div class="cert-name">Matrix Solver</div><div class="cert-provider">NPTEL &nbsp;·&nbsp; IIT Kharagpur</div></div><div class="cert-right"><span class="cert-year">Oct 2022</span><a href="#" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+  </div>
+</section>
 
     <!-- AWARDS -->
     <section id="awards">
-      <div class="section-label">11 — Recognition</div>
       <h2 class="section-title">Awards &amp; <em>Honours</em></h2>
       <div class="awards-list">
         <div class="award-item">
           <div class="award-img">🏆<!-- Replace with: <img src="award1.jpg"> --></div>
           <div style="flex:1">
-            <div class="award-title">Best MSc Thesis Award — Computer Science</div>
-            <div class="award-org">University of Example</div>
-            <div class="award-year">2024</div>
+            <div class="award-title">Best Research Award&nbsp;·&nbsp; <span style="color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 400;">May 2025</span></div>
+            <div class="award-org">MIT World Peace University</div>
+            <div class="award-desc" style="font-size: 0.81rem; color: var(--muted); margin-top: 0.35rem;">For outstanding research on k-Domination Vertex Connectivity of Connected Graphs.</div>
           </div>
           <a href="#" class="award-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
         </div>
         <div class="award-item">
           <div class="award-img">🎓<!-- Replace with: <img src="award2.jpg"> --></div>
           <div style="flex:1">
-            <div class="award-title">Dean's Excellence Scholarship</div>
-            <div class="award-org">University of Example &nbsp;·&nbsp; Full tuition award</div>
-            <div class="award-year">2022</div>
+            <div class="award-title">Dr. Vishwanath Karad Scholarship &nbsp;·&nbsp; <span style="color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 400;">2023 - 2025</span></div>
+            <div class="award-org">MIT World Peace University</div>
+            <div class="award-desc" style="font-size: 0.81rem; color: var(--muted); margin-top: 0.35rem;">100% merit scholarship awarded to the top 1% of students for academic excellence across the full two years of MSc Mathematics.</div>
           </div>
           <a href="#" class="award-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
         </div>
         <div class="award-item">
           <div class="award-img">🥇<!-- Replace with: <img src="award3.jpg"> --></div>
           <div style="flex:1">
-            <div class="award-title">First Place — Undergraduate Mathematics Prize</div>
-            <div class="award-org">Sample University &nbsp;·&nbsp; Department of Mathematics</div>
-            <div class="award-year">2022</div>
+            <div class="award-title">Silver Medal&nbsp;·&nbsp; <span style="color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 400;">May 2025</span></div>
+            <div class="award-org">MIT World Peace University</div>
+            <div class="award-desc" style="font-size: 0.81rem; color: var(--muted); margin-top: 0.35rem;">Awarded for attaining a top-tier GPA in the MSc Mathematics cohort.</div>
+          </div>
+          <a href="#" class="award-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
+        </div>
+        <div class="award-item">
+          <div class="award-img">🥇<!-- Replace with: <img src="award3.jpg"> --></div>
+          <div style="flex:1">
+            <div class="award-title">Winner, Ideathon at Hackathon&nbsp;·&nbsp; <span style="color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 400;">March 2024</span></div>
+            <div class="award-org">MIT World Peace University</div>
+            <div class="award-desc" style="font-size: 0.81rem; color: var(--muted); margin-top: 0.35rem;">First place for the crime detection and crowd management system built using the YOLO object detection algorithm.</div>
           </div>
           <a href="#" class="award-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
         </div>
@@ -755,13 +766,12 @@
 
     <!-- CV -->
     <section id="cv">
-      <div class="section-label">12 — Curriculum Vitae</div>
       <h2 class="section-title">My <em>CV</em></h2>
       <div class="cv-box">
         <div class="cv-icon"><i class="fas fa-file-alt"></i></div>
         <div class="cv-info">
           <h3>Curriculum Vitae</h3>
-          <p>Full academic CV including education, research experience, publications, awards, and references. Last updated January 2024.</p>
+          <p>A full record of my academic journey, covering education, research, conferences, awards, and coursework. Last updated April 2026.</p>
           <div class="cv-actions">
             <a href="#" class="cv-action-btn primary" target="_blank"><i class="fas fa-eye"></i> View CV</a>
             <a href="#" class="cv-action-btn secondary" download><i class="fas fa-download"></i> Download PDF</a>
@@ -772,24 +782,21 @@
 
     <!-- CONTACT -->
     <section id="contact">
-      <div class="section-label">13 — Get in Touch</div>
-      <h2 class="section-title">Let's <em>Connect</em></h2>
+      <h2 class="section-title">Let's <em>Connect!</em></h2>
       <div class="contact-grid">
         <div class="contact-info">
-          <p>I am actively looking for PhD opportunities in theoretical machine learning, graph learning, and geometric deep learning starting in 2025. If you are a potential supervisor or collaborator, I would love to hear from you.</p>
+          <p>Open to research collaborations, academic discussions, and anything that sits at the intersection of graph theory and neural networks.</p>
           <div class="contact-items">
-            <a href="mailto:alex@university.edu" class="contact-item"><i class="fas fa-envelope"></i><span>alex@university.edu</span></a>
-            <a href="#" class="contact-item"><i class="fas fa-map-marker-alt"></i><span>London, United Kingdom</span></a>
+            <a href="mailto:shraddha.harihar8@gmail.com" class="contact-item"><i class="fas fa-envelope"></i><span>shraddha.harihar8@gmail.com</span></a>
+            <a href="#" class="contact-item"><i class="fas fa-map-marker-alt"></i><span>India</span></a>
           </div>
         </div>
         <div>
           <div class="social-grid">
-            <a href="#" class="social-card" target="_blank"><i class="fab fa-github"></i><div><div class="social-card-name">GitHub</div><div class="social-card-handle">@alexmorgan</div></div></a>
-            <a href="#" class="social-card" target="_blank"><i class="fab fa-linkedin-in"></i><div><div class="social-card-name">LinkedIn</div><div class="social-card-handle">in/alexmorgan</div></div></a>
-            <a href="#" class="social-card" target="_blank"><i class="fas fa-graduation-cap"></i><div><div class="social-card-name">Google Scholar</div><div class="social-card-handle">Alex Morgan</div></div></a>
-            <a href="#" class="social-card" target="_blank"><i class="fab fa-researchgate"></i><div><div class="social-card-name">ResearchGate</div><div class="social-card-handle">Alex_Morgan</div></div></a>
-            <a href="#" class="social-card" target="_blank"><i class="fab fa-orcid"></i><div><div class="social-card-name">ORCID</div><div class="social-card-handle">0000-0000-0000</div></div></a>
-            <a href="#" class="social-card" target="_blank"><i class="fab fa-x-twitter"></i><div><div class="social-card-name">Twitter / X</div><div class="social-card-handle">@alexmorgan_ml</div></div></a>
+            <a href="https://linkedin.com/in/shraddha-harihar" class="social-card" target="_blank"><i class="fab fa-linkedin-in"></i><div><div class="social-card-name">LinkedIn</div><div class="social-card-handle">in/shraddha-harihar</div></div></a>
+            <a href="https://github.com/ShradHarihar" class="social-card" target="_blank"><i class="fab fa-github"></i><div><div class="social-card-name">GitHub</div><div class="social-card-handle">@ShradHarihar</div></div></a>
+            <a href="#" class="social-card" target="_blank"><i class="fas fa-graduation-cap"></i><div><div class="social-card-name">Google Scholar</div><div class="social-card-handle">Shraddha Harihar</div></div></a>
+            <a href="#" class="social-card" target="_blank"><i class="fab fa-researchgate"></i><div><div class="social-card-name">ResearchGate</div><div class="social-card-handle">Shraddha_Harihar</div></div></a>
           </div>
         </div>
       </div>
