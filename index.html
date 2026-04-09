@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Shraddha Harihar</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -156,8 +157,8 @@
       overflow: hidden;
     }
     .sidebar-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-    .sidebar-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 700; color: var(--fg); line-height: 1.2; }
-    .sidebar-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.63rem; color: var(--muted); margin-top: 0.22rem; line-height: 1.4; }
+    .sidebar-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--fg); line-height: 1.2; }
+    .sidebar-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.8rem; color: var(--muted); margin-top: 0.22rem; line-height: 1.4; }
     .sidebar-badge { display: inline-block; margin-top: 0.45rem; padding: 0.16rem 0.5rem; border-radius: 20px; background: rgba(168,255,62,0.08); border: 1px solid rgba(168,255,62,0.2); font-size: 0.58rem; color: var(--accent2); letter-spacing: 0.07em; }
 
     .sidebar-nav { flex: 1; overflow-y: scroll; padding: 0.9rem 0; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
@@ -165,19 +166,19 @@
     .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
     .sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-    .nav-section-label { font-family: 'DM Mono', monospace; font-size: 0.57rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); padding: 0.65rem 1.5rem 0.28rem; opacity: 0.5; }
-    .sidebar-nav a { display: flex; align-items: center; gap: 0.65rem; padding: 0.48rem 1.5rem; color: var(--muted); text-decoration: none; font-size: 0.77rem; transition: all 0.2s; border-left: 2px solid transparent; }
+    .nav-section-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); padding: 0.65rem 1.5rem 0.28rem; opacity: 0.5; }
+    .sidebar-nav a { display: flex; align-items: center; gap: 0.65rem; padding: 0.48rem 1.5rem; color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: all 0.2s; border-left: 2px solid transparent; }
     .sidebar-nav a i { width: 14px; font-size: 0.7rem; text-align: center; }
     .sidebar-nav a:hover { color: var(--fg); background: rgba(255,255,255,0.025); }
     .sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(0,212,255,0.05); }
 
     .sidebar-bottom { padding: 1rem 1.5rem; border-top: 1px solid var(--border); }
-    .sidebar-bottom-label { font-family: 'DM Mono', monospace; font-size: 0.57rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.65rem; opacity: 0.5; }
+    .sidebar-bottom-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.65rem; opacity: 0.5; }
     .sidebar-contacts { display: flex; flex-direction: column; gap: 0.4rem; }
     .sidebar-contacts a { display: flex; align-items: center; gap: 0.5rem; color: var(--muted); text-decoration: none; font-size: 0.7rem; transition: color 0.2s; }
     .sidebar-contacts a:hover { color: var(--accent); }
     .sidebar-contacts a i { width: 13px; font-size: 0.7rem; }
-    .cv-btn { margin-top: 0.7rem; display: flex; align-items: center; justify-content: center; gap: 0.42rem; padding: 0.5rem; border-radius: 6px; background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); color: var(--accent) !important; font-size: 0.7rem !important; text-decoration: none; transition: all 0.2s; letter-spacing: 0.05em; }
+    .cv-btn { margin-top: 0.7rem; display: flex; align-items: center; justify-content: center; gap: 0.42rem; padding: 0.5rem; border-radius: 6px; background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); color: var(--accent) !important; font-size: 0.85rem !important; text-decoration: none; transition: all 0.2s; letter-spacing: 0.05em; }
     .cv-btn:hover { background: rgba(0,212,255,0.14) !important; }
 
     /* ════════════════════════════════
@@ -207,7 +208,7 @@
 
     /* ── ABOUT — full width, single column ── */
     .about-body { position: relative; z-index: 1; max-width: 100%; }
-    .about-body p { color: #9aaac5; line-height: 1.9; margin-bottom: 1rem; font-size: 1rem; }
+    .about-body p { font-family: 'Playfair Display'; font-style: italic; color: #9aaac5; line-height: 1.9; margin-bottom: 1rem; font-size: 1.3rem; }
     .about-body p:last-child { margin-bottom: 0; }
     .about-highlight { color: var(--fg) !important; font-weight: 500; }
     .research-statement { margin-top: 2rem; padding: 1.3rem; background: var(--card); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.96rem; color: #b0c4d8; line-height: 1.85; }
@@ -219,8 +220,8 @@
     .interest-card:hover { border-color: rgba(0,212,255,0.25); transform: translateY(-2px); }
     .interest-card:hover::before { opacity: 1; }
     .interest-icon { font-size: 1.25rem; margin-bottom: 0.65rem; color: var(--accent); }
-    .interest-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.05rem; color: var(--fg); margin-bottom: 0.32rem; }
-    .interest-desc { font-size: 0.76rem; color: var(--muted); line-height: 1.6; }
+    .interest-title { font-family: 'Cormorant Garamond'; font-weight: 700; font-size: 1.2rem; color: var(--fg); margin-bottom: 0.32rem; }
+    .interest-desc { font-family: 'Plus Jakarta Sans', sans-serif; font-style: italic; font-size: 0.76rem; color: var(--muted); line-height: 1.6; }
 
     /* ── TIMELINE (Education) ── */
     .timeline { position: relative; padding-left: 2rem; z-index: 1; }
@@ -228,13 +229,13 @@
     .timeline-item { position: relative; margin-bottom: 2.4rem; padding-left: 1.5rem; }
     .timeline-item:last-child { margin-bottom: 0; }
     .timeline-item::before { content: ''; position: absolute; left: -2rem; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px rgba(0,212,255,0.5); }
-    .timeline-date { font-family: 'DM Mono', monospace; font-size: 0.67rem; letter-spacing: 0.12em; color: var(--accent2); text-transform: uppercase; margin-bottom: 0.3rem; }
-    .timeline-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.15rem; color: var(--fg); margin-bottom: 0.12rem; }
-    .timeline-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--muted); margin-bottom: 0.5rem; }
-    .timeline-body { font-size: 0.81rem; color: #7a8fa8; line-height: 1.75; }
+    .timeline-date { font-family: 'Plus Jakarta Sans', monospace; font-size: 0.8rem; letter-spacing: 0.12em; color: var(--accent2); text-transform: uppercase; margin-bottom: 0.3rem; }
+    .timeline-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.5rem; color: var(--fg); margin-bottom: 0.12rem; }
+    .timeline-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .timeline-body { font-size: 1.0rem; color: #7a8fa8; line-height: 1.75; }
     .timeline-body ul { padding-left: 1.1rem; margin-top: 0.35rem; }
     .timeline-body ul li { margin-bottom: 0.28rem; }
-    .timeline-tag { display: inline-block; margin-top: 0.48rem; margin-right: 0.32rem; padding: 0.16rem 0.52rem; border-radius: 20px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15); font-size: 0.63rem; color: var(--accent); font-family: 'DM Mono', monospace; }
+    .timeline-tag { display: inline-block; margin-top: 0.48rem; margin-right: 0.32rem; padding: 0.16rem 0.52rem; border-radius: 20px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15); font-size: 0.8rem; color: var(--accent); font-family: 'DM Mono', monospace; }
 
     /* ── EXPERIENCE CARDS (Research + Work) — bubble, single col ── */
     .exp-cards { display: flex; flex-direction: column; gap: 1.1rem; position: relative; z-index: 1; }
@@ -242,14 +243,15 @@
     .exp-card:hover { border-color: rgba(0,212,255,0.22); box-shadow: 0 4px 20px rgba(0,0,0,0.25); }
     .exp-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
     .exp-card-left {}
-    .exp-card-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.15rem; color: var(--fg); margin-bottom: 0.12rem; }
-    .exp-card-org { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1rem; color: var(--accent); }
-    .exp-card-date { font-family: 'DM Mono', monospace; font-size: 0.67rem; color: var(--muted); white-space: nowrap; padding-top: 0.1rem; }
+    .exp-card-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.5rem; color: var(--fg); margin-bottom: 0.12rem; }
+    .exp-card-org { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--accent); }
+    .exp-card-supervisor { font-family: 'Cormorant Garamond', sans-serif; font-style: normal; font-size: 0.1.0rem; color: var(--muted); }
+    .exp-card-date { font-family: 'Josefin Sans'; font-size: 1.0rem; color: var(--muted); white-space: nowrap; padding-top: 0.1rem; }
     .exp-card-body { font-size: 0.81rem; color: #7a8fa8; line-height: 1.75; }
     .exp-card-body ul { padding-left: 1.1rem; margin-top: 0.35rem; }
     .exp-card-body ul li { margin-bottom: 0.28rem; }
     .exp-card-tags { margin-top: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.35rem; }
-    .exp-tag { display: inline-block; padding: 0.16rem 0.52rem; border-radius: 20px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15); font-size: 0.63rem; color: var(--accent); font-family: 'DM Mono', monospace; }
+    .exp-tag { display: inline-block; padding: 0.16rem 0.52rem; border-radius: 20px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15); font-size: 0.7rem; color: var(--accent); font-family: 'DM Mono', monospace; }
 
     /* ── PROJECTS — single column ── */
     .projects-list { display: flex; flex-direction: column; gap: 1.1rem; position: relative; z-index: 1; }
@@ -258,18 +260,18 @@
     .project-icon { color: var(--accent); font-size: 1.25rem; margin-top: 0.1rem; flex-shrink: 0; }
     .project-right { flex: 1; }
     .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.45rem; flex-wrap: wrap; gap: 0.35rem; }
-    .project-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.12rem; color: var(--fg); }
+    .project-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.3rem; color: var(--fg); }
     .project-links { display: flex; gap: 0.55rem; }
-    .project-links a { color: var(--muted); font-size: 0.83rem; text-decoration: none; transition: color 0.2s; }
+    .project-links a { color: var(--muted); font-size: 0.95rem; text-decoration: none; transition: color 0.2s; }
     .project-links a:hover { color: var(--accent); }
-    .project-desc { font-size: 0.81rem; color: var(--muted); line-height: 1.65; margin-bottom: 0.75rem; }
+    .project-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.65; margin-bottom: 0.75rem; }
     .project-tags { display: flex; flex-wrap: wrap; gap: 0.38rem; }
-    .tag { padding: 0.14rem 0.48rem; border-radius: 4px; background: rgba(168,255,62,0.06); border: 1px solid rgba(168,255,62,0.15); font-size: 0.62rem; color: var(--accent2); font-family: 'DM Mono', monospace; }
+    .tag { padding: 0.14rem 0.48rem; border-radius: 4px; background: rgba(168,255,62,0.06); border: 1px solid rgba(168,255,62,0.15); font-size: 0.75rem; color: var(--accent2); font-family: 'DM Mono', monospace; }
 
     /* ── PUBLICATIONS ── */
     .pub-item { display: flex; gap: 1.4rem; padding: 1.4rem 0; border-bottom: 1px solid var(--border); align-items: flex-start; position: relative; z-index: 1; }
     .pub-item:last-child { border-bottom: none; }
-    .pub-year { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--accent); font-weight: 700; min-width: 48px; line-height: 1; padding-top: 3px; }
+    .pub-year { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--accent); font-weight: 700; min-width: 48px; line-height: 1; padding-top: 3px; }
     .pub-content { flex: 1; }
     .pub-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.1rem; color: var(--fg); margin-bottom: 0.25rem; line-height: 1.4; }
     .pub-authors { font-size: 0.92rem; color: var(--muted); margin-bottom: 0.22rem; }
@@ -280,20 +282,21 @@
 
     /* ── SKILLS ── */
     .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); gap: 1.4rem; position: relative; z-index: 1; }
-    .skill-group-title { font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.85rem; }
+    .skill-group-title { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.85rem; }
     .skill-items { display: flex; flex-wrap: wrap; gap: 0.42rem; }
     .skill-item { padding: 0.26rem 0.62rem; border-radius: 6px; background: var(--card); border: 1px solid var(--border); font-size: 0.72rem; color: #9aaac5; transition: border-color 0.2s, color 0.2s; }
     .skill-item:hover { border-color: rgba(0,212,255,0.3); color: var(--accent); }
 
+    /* ── CONFERENCES ── */
     .conf-cards { display: flex; flex-direction: column; gap: 1rem; position: relative; z-index: 1; }
     .conf-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem 1.5rem; display: flex; align-items: center; gap: 1.2rem; transition: border-color 0.3s; }
     .conf-card:hover { border-color: rgba(0,212,255,0.22); }
     .conf-img { width: 40px; height: 40px; border-radius: 8px; background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.15); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 1rem; flex-shrink: 0; overflow: hidden; }
     .conf-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 7px; }
-    .conf-year { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--accent); min-width: 38px; flex-shrink: 0; }
+    .conf-year { font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; color: var(--accent); min-width: 38px; flex-shrink: 0; }
     .conf-role-badge { font-size: 0.65rem; padding: 0.18rem 0.6rem; border-radius: 20px; background: rgba(56,182,255,0.12); border: 1px solid rgba(56,182,255,0.4); color: #38b6ff; white-space: nowrap; min-width: 66px; text-align: center; flex-shrink: 0; font-weight: 600; letter-spacing: 0.05em; }
     .conf-info { flex: 1; }
-    .conf-name { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.05rem; color: var(--fg); margin-bottom: 0.18rem; }
+    .conf-name { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.25rem; color: var(--fg); margin-bottom: 0.18rem; }
     .conf-location { font-size: 0.88rem; color: var(--muted); }
     .conf-location i { color: var(--accent); margin-right: 0.28rem; font-size: 0.63rem; }
     .conf-cert-link { font-size: 0.63rem; color: var(--accent2); text-decoration: none; border: 1px solid rgba(168,255,62,0.2); padding: 0.18rem 0.5rem; border-radius: 4px; font-family: 'DM Mono', monospace; letter-spacing: 0.07em; white-space: nowrap; transition: background 0.2s; flex-shrink: 0; }
@@ -305,31 +308,32 @@
     .cert-item:hover { border-color: rgba(0,212,255,0.2); }
     .cert-icon { width: 33px; height: 33px; border-radius: 7px; background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.15); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 0.82rem; flex-shrink: 0; }
     .cert-info { flex: 1; }
-    .cert-name { font-family: 'Cormorant Garamond', serif; font-size: 1.02rem; font-weight: 700; color: var(--fg); }
+    .cert-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700; color: var(--fg); }
     .cert-provider { font-size: 0.88rem; color: var(--muted); margin-top: 0.06rem; }
     .cert-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.32rem; }
-    .cert-year { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--accent); }
+    .cert-year { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--accent); }
     .cert-link { font-size: 0.63rem; color: var(--accent2); text-decoration: none; border: 1px solid rgba(168,255,62,0.2); padding: 0.11rem 0.42rem; border-radius: 4px; font-family: 'DM Mono', monospace; letter-spacing: 0.07em; transition: background 0.2s; white-space: nowrap; }
     .cert-link:hover { background: rgba(168,255,62,0.08); }
 
+    /* ── AWARDS ── */
     .awards-list { display: flex; flex-direction: column; gap: 0.95rem; position: relative; z-index: 1; }
     .award-item { display: flex; gap: 1.15rem; align-items: center; padding: 1.25rem; background: var(--card); border: 1px solid var(--border); border-radius: 10px; transition: border-color 0.3s; }
     .award-item:hover { border-color: rgba(168,255,62,0.2); }
     .award-img { width: 54px; height: 54px; border-radius: 8px; background: linear-gradient(135deg, #1a2a4a, #0d1830); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; overflow: hidden; }
     .award-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 7px; }
-    .award-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.08rem; color: var(--fg); margin-bottom: 0.18rem; }
+    .award-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.3rem; color: var(--fg); margin-bottom: 0.18rem; }
     .award-org { font-size: 0.92rem; color: var(--muted); margin-bottom: 0.18rem; }
-    .award-year { font-family: 'DM Mono', monospace; font-size: 0.66rem; color: var(--accent2); }
+    .award-year { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--accent2); }
     .award-cert-link { font-size: 0.63rem; color: var(--accent2); text-decoration: none; border: 1px solid rgba(168,255,62,0.2); padding: 0.18rem 0.5rem; border-radius: 4px; font-family: 'DM Mono', monospace; letter-spacing: 0.07em; white-space: nowrap; transition: background 0.2s; flex-shrink: 0; }
     .award-cert-link:hover { background: rgba(168,255,62,0.08); }
 
     /* ── CV ── */
     .cv-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2.3rem; display: flex; align-items: center; gap: 2rem; position: relative; z-index: 1; }
     .cv-icon { font-size: 3rem; color: var(--accent); flex-shrink: 0; }
-    .cv-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700; color: var(--fg); margin-bottom: 0.38rem; }
-    .cv-info p { font-size: 0.81rem; color: var(--muted); line-height: 1.65; }
+    .cv-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 700; color: var(--fg); margin-bottom: 0.38rem; }
+    .cv-info p { font-family: 'Playfair Display'; font-style: italic;  font-size: 1.2rem; color: var(--muted); line-height: 1.65; }
     .cv-actions { display: flex; gap: 0.75rem; margin-top: 1.1rem; flex-wrap: wrap; }
-    .cv-action-btn { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.58rem 1.15rem; border-radius: 7px; font-size: 0.76rem; text-decoration: none; transition: all 0.2s; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
+    .cv-action-btn { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.58rem 1.15rem; border-radius: 7px; font-size: 0.85rem; text-decoration: none; transition: all 0.2s; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
     .cv-action-btn.primary { background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.3); color: var(--accent); }
     .cv-action-btn.primary:hover { background: rgba(0,212,255,0.15); }
     .cv-action-btn.secondary { background: rgba(168,255,62,0.07); border: 1px solid rgba(168,255,62,0.25); color: var(--accent2); }
@@ -337,17 +341,17 @@
 
     /* ── CONTACT ── */
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; position: relative; z-index: 1; }
-    .contact-info p { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.88rem; color: #7a8fa8; line-height: 1.85; margin-bottom: 1.35rem; }
+    .contact-info p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: #7a8fa8; line-height: 1.85; margin-bottom: 1.35rem; }
     .contact-items { display: flex; flex-direction: column; gap: 0.72rem; }
     .contact-item { display: flex; align-items: center; gap: 0.95rem; padding: 0.72rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; transition: border-color 0.3s, transform 0.2s; }
     .contact-item:hover { border-color: rgba(0,212,255,0.25); transform: translateX(4px); }
     .contact-item i { color: var(--accent); width: 16px; font-size: 0.86rem; }
-    .contact-item span { font-size: 0.8rem; color: #9aaac5; }
+    .contact-item span { font-size: 1.0rem; color: #9aaac5; }
     .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.72rem; }
     .social-card { display: flex; align-items: center; gap: 0.72rem; padding: 0.85rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; transition: border-color 0.3s; }
     .social-card:hover { border-color: rgba(0,212,255,0.2); }
-    .social-card i { font-size: 1rem; color: var(--accent); width: 17px; }
-    .social-card-name { font-size: 0.76rem; font-weight: 600; color: var(--fg); }
+    .social-card i { font-size: 1.2rem; color: var(--accent); width: 17px; }
+    .social-card-name { font-size: 0.85rem; font-weight: 600; color: var(--fg); }
     .social-card-handle { font-family: 'DM Mono', monospace; font-size: 0.63rem; color: var(--muted); }
 
     /* ── FOOTER ── */
@@ -397,10 +401,11 @@
 
   <!-- Text -->
 <div class="hero-right">
-  <p style="font-family: 'DM Mono', monospace; font-size: 1.25rem; letter-spacing: 0.05em; color: var(--muted);">Hello, I'm</p>
-  <div class="hero-name">Shraddha Harihar</div>
+  <p style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-style: italic; color: var(--muted);">Hello, I'm</p>
+<div class="hero-name">Shraddha M.</div>
+<div class="hero-name" style="text-align: center;">Harihar</div>
   <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
-    <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.15rem; color: var(--muted);">Let's Connect!</span>
+    <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.8rem; color: var(--muted);">Let's Connect!</span>
     <div class="hero-socials">
       <a href="mailto:shraddha.harihar8@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
       <a href="https://linkedin.com/in/shraddha-harihar" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
@@ -420,12 +425,16 @@
   <!-- SIDEBAR -->
   <aside id="sidebar">
     <div class="sidebar-top">
-      <div class="sidebar-photo"><img src="Achievement Photos/Photo_Shraddha.jpg" alt="Shraddha Harihar"></div>
+      <div style="display: flex; align-items: center; gap: 0.85rem;">
+      <div class="sidebar-photo">
+        <img src="Achievement Photos/Photo_Shraddha.jpg" alt="Shraddha Harihar"></div>
       <div>
-      <div class="sidebar-name">Shraddha M.</div>
-      <div class="sidebar-name">Harihar</div>
+        <div class="sidebar-name">Shraddha M.</div>
+        <div class="sidebar-name" style="text-align: center;">Harihar</div>
       </div>
     </div>
+  </div>
+
 
     <nav class="sidebar-nav">
       <div class="nav-section-label">Explore</div>
@@ -516,9 +525,9 @@
         <div class="exp-card">
           <div class="exp-card-header">
             <div class="exp-card-left">
-              <div class="exp-card-title">k-Domination Vertex Connectivity of Connected Graphs <a href="https://github.com/ShradHarihar/k-Domination-Vertex-Connectivity-of-Connected-Graphs" target="_blank" style="font-size: 0.85rem; color: var(--accent2); text-decoration: none;"><i class="fas fa-external-link-alt"></i></a></div>
+              <div class="exp-card-title"><em>k</em>-Domination Vertex Connectivity of Connected Graphs <a href="https://github.com/ShradHarihar/k-Domination-Vertex-Connectivity-of-Connected-Graphs" target="_blank" style="font-size: 0.85rem; color: var(--accent2); text-decoration: none;"><i class="fas fa-external-link-alt"></i></a></div>
               <div class="exp-card-org">MIT World Peace University, Pune, India</div>
-              <div class="exp-card-org" style="font-style: normal; font-size: 0.85rem; color: var(--muted);">Supervisor: Prof. Amol Narke</div>
+              <div class="exp-card-supervisor"><strong>Supervisor:</strong> Prof. Amol Narke</div>
             </div>
             <div class="exp-card-date">Aug 2023 - Dec 2024</div>
           </div>
@@ -535,7 +544,7 @@
             <div class="exp-card-left">
               <div class="exp-card-title">Applications of Number Theory in Cryptography <a href="https://github.com/ShradHarihar/Applications-of-Number-Theory-in-Cryptography" target="_blank" style="font-size: 0.85rem; color: var(--accent2); text-decoration: none;"><i class="fas fa-external-link-alt"></i></a></div>
               <div class="exp-card-org">M. S. Ramaiah University of Applied Sciences, Bengaluru, India</div>
-              <div class="exp-card-org" style="font-style: normal; font-size: 0.85rem; color: var(--muted);">Supervisor: Dr. S. Chandankumar</div>
+              <div class="exp-card-supervisor"><strong>Supervisor:</strong> Dr. S. Chandankumar</div>
             </div>
             <div class="exp-card-date"> Aug 2022 - May 2023</div>
           </div>
@@ -597,11 +606,11 @@
   </div>
 
   <div class="project-card">
-    <div class="project-icon"><i class="fas fa-eye-slash"></i></div>
+    <div class="project-icon"><i class="fas fa-brain"></i></div>
     <div class="project-right">
       <div class="project-header"><div class="project-title">Machine Learning Algorithms</div><div class="project-links"><a href="https://github.com/ShradHarihar/Machine-Learning-Algorithm" title="GitHub"><i class="fab fa-github"></i></a></div></div>
-      <div class="project-desc">Built a real-time Morse code translator that tracks eye blinks using facial landmark detection, converting blink patterns into characters without any physical input device.</div>
-      <div class="project-tags"><span class="tag">OpenCV</span><span class="tag">MediaPipe</span><span class="tag">Python</span><span class="tag">Computer Vision</span></div>
+      <div class="project-desc">Implemented core supervised learning algorithms from scratch, covering Linear Regression, Logistic Regression, Decision Trees, and Kernel SVM. Applied them to real datasets to understand how each method learns, where it works, and where it does not.</div>
+      <div class="project-tags"><span class="tag">Supervised Learning</span><span class="tag">Scikit-learn</span><span class="tag">Python</span><span class="tag">Jupyter</span></div>
     </div>
   </div>  
 
@@ -798,7 +807,7 @@
           <p>Open to research collaborations, academic discussions, and anything that sits at the intersection of graph theory and neural networks.</p>
           <div class="contact-items">
             <a href="mailto:shraddha.harihar8@gmail.com" class="contact-item"><i class="fas fa-envelope"></i><span>shraddha.harihar8@gmail.com</span></a>
-            <a href="#" class="contact-item"><i class="fas fa-map-marker-alt"></i><span>India</span></a>
+            <a href="https://maps.app.goo.gl/LriKpBphu2cPtP7C6" class="contact-item"><i class="fas fa-map-marker-alt"></i><span>India</span></a>
           </div>
         </div>
         <div>
@@ -840,13 +849,13 @@ function drawGraph() {
     const a=nodes[i], b=nodes[j], d=Math.hypot(a.x-b.x,a.y-b.y);
     if (d>260) return;
     ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
-    ctx.strokeStyle=`rgba(0,212,255,${(1-d/260)*0.1})`; ctx.lineWidth=0.7; ctx.stroke();
+    ctx.strokeStyle=`rgba(0,212,255,${(1-d/260)*0.3})`; ctx.lineWidth=0.7; ctx.stroke();
   });
   nodes.forEach(n => {
     n.pulse+=0.015;
     const a=0.25+0.4*(0.5+0.5*Math.sin(n.pulse));
     ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(0,212,255,${a*0.6})`; ctx.fill();
+    ctx.fillStyle=`rgba(0,212,255,${a*1.0})`; ctx.fill();
     n.x+=n.vx; n.y+=n.vy;
     if(n.x<0||n.x>W) n.vx*=-1; if(n.y<0||n.y>H) n.vy*=-1;
   });
