@@ -245,7 +245,7 @@
     .exp-card-left {}
     .exp-card-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.5rem; color: var(--fg); margin-bottom: 0.12rem; }
     .exp-card-org { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--accent); }
-    .exp-card-supervisor { font-family: 'Cormorant Garamond', sans-serif; font-style: normal; font-size: 0.1.0rem; color: var(--muted); }
+    .exp-card-supervisor { font-family: 'Cormorant Garamond', sans-serif; font-style: normal; font-size: 1.0rem; color: var(--muted); }
     .exp-card-date { font-family: 'Josefin Sans'; font-size: 1.0rem; color: var(--muted); white-space: nowrap; padding-top: 0.1rem; }
     .exp-card-body { font-size: 0.81rem; color: #7a8fa8; line-height: 1.75; }
     .exp-card-body ul { padding-left: 1.1rem; margin-top: 0.35rem; }
@@ -380,14 +380,17 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-    .gallery-wrapper { position: relative; display: flex; align-items: center; gap: 1rem; }
-    .gallery-track-outer { overflow: hidden; width: 100%; }
-    .gallery-track { display: flex; gap: 1.2rem; width: max-content; animation: galleryScroll 40s linear infinite; }
+    /* ── GALLERY ── */
+    .gallery-wrapper { display: flex; align-items: center; gap: 1rem; width: 100%; }
+    .gallery-track-outer { overflow: hidden; flex: 1; padding: 2rem 0; }
+    .gallery-track { display: flex; gap: 1.4rem; width: max-content; animation: galleryScroll 40s linear infinite; }
     .gallery-track:hover { animation-play-state: paused; }
-    .gallery-item { flex-shrink: 0; width: 260px; }
-    .gallery-item img { width: 100%; height: 165px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); display: block; }
-    .gallery-caption { font-family: 'Playfair Display', serif; font-style:italic; font-size: 1.0rem; color: var(--muted); text-align: center; margin-top: 0.45rem; }
-    .gallery-arrow { background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); color: var(--accent); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.2s; font-size: 0.85rem; }
+    .gallery-item { flex-shrink: 0; width: 370px; transition: transform 0.4s ease; position: relative; z-index: 1; }
+    .gallery-item:hover { transform: scale(1.18); z-index: 10; }
+    .gallery-item img { width: 100%; height: 280px; object-fit: cover; border-radius: 10px; object-position: center; border-radius:10px; border: 1px solid var(--border); display: block; transition: box-shadow 0.4s; }
+    .gallery-item:hover img { box-shadow: 0 12px 48px rgba(0,212,255,0.28); }
+    .gallery-caption { font-family: 'DM Mono', monospace; font-size: 0.63rem; color: var(--muted); text-align: center; margin-top: 0.45rem; }
+    .gallery-arrow { background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); color: var(--accent); border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.2s; font-size: 0.85rem; }
     .gallery-arrow:hover { background: rgba(0,212,255,0.15); }
     @keyframes galleryScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
@@ -437,7 +440,7 @@
   <!-- SIDEBAR -->
   <aside id="sidebar">
     <div class="sidebar-top">
-      <div style="display: flex; align-items: center; gap: 0.85rem;">
+      <div style="display: flex; align-items: center; gap: 0.85rem; cursor: pointer;" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
       <div class="sidebar-photo">
         <img src="Achievement Photos/Photo_Shraddha.jpg" alt="Shraddha Harihar"></div>
       <div>
@@ -837,10 +840,10 @@
     <!-- GALLERY -->
     <section id="gallery">
       <h2 class="section-title">My <em>Gallery</em></h2>
-      <div class="gallery-wrapper"></div>
+      <div class="gallery-wrapper">
         <button class="gallery-arrow" onclick="shiftGallery(-1)"><i class="fas fa-chevron-left"></i></button>
         <div class="gallery-track-outer">
-          <div class="gallery-track" id="galleryTrack"></div>
+          <div class="gallery-track" id="galleryTrack" style="display: flex; flex-direction: row; flex-wrap: nowrap;"></div>
             <div class="gallery-item"><img src="Achievement Photos/Scholarship.jpeg" alt=""><div class="gallery-caption">MSc Scholarship</div></div>
             <div class="gallery-item"><img src="Achievement Photos/IMS Welcome.jpeg" alt=""><div class="gallery-caption">Welcoming at the IMS</div></div>
             <div class="gallery-item"><img src="Achievement Photos/MSc Dissertation Presentation.jpeg" alt=""><div class="gallery-caption">MSc Dissertation</div></div>
@@ -977,13 +980,15 @@ document.querySelectorAll('.nav-link').forEach(l => {
 
 function shiftGallery(dir) {
   const track = document.getElementById('galleryTrack');
-  track.style.animation = 'none';
   const currentTransform = new WebKitCSSMatrix(window.getComputedStyle(track).transform);
   const currentX = currentTransform.m41;
-  track.style.transform = `translateX(${currentX + (dir * -280)}px)`;
+  const newX = currentX + (dir * -280);
+  track.style.animation = 'none';
+  track.style.transform = `translateX(${newX}px)`;
   setTimeout(() => {
+    track.style.transition = 'none';
     track.style.animation = 'galleryScroll 40s linear infinite';
-  }, 600);
+  }, 800);
 }
 
 </script>
