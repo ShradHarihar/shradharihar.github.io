@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shraddha Harihar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #141230;
+      --sidebar: #0e0c30;
+      --fg: #e8edf5;
+      --muted: #8899bb;
+      --accent: #93c5fd;
+      --accent2: #c4b5fd;
+      --border: #2a2660;
+      --card: #1a1840;
+      --sidebar-width: 260px;
+      --hero-bg: #0b0928;
+    }
+
+    html { scroll-behavior: auto; }
+    body { background: var(--bg); color: var(--fg); font-family: 'Inter', sans-serif; font-size: 17px; line-height: 1.75; overflow-x: hidden; overscroll-behavior: none; }
+
+    /* ════════════════════════════════
+       HERO — clean, minimal, subtle graph bg
+    ════════════════════════════════ */
+    #graph-canvas {
+      position: absolute;
+      inset: 0; width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    #hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--hero-bg);
+    }
+
+    .hero-split {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 3.5rem;
+      max-width: 820px;
+      width: 90%;
+      padding: 2rem;
+    }
+
+    .hero-left { flex-shrink: 0; }
+
+    .hero-photo-wrap {
+      width: 190px; height: 190px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      background: linear-gradient(135deg, #1a2a4a, #0f1e35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; color: var(--accent);
+      overflow: hidden;
+      box-shadow: 0 0 0 6px rgba(0,212,255,0.07);
+    }
+    .hero-photo-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      align-items: flex-start;
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 6vw, 5.2rem);
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--fg);
+      letter-spacing: -0.01em;
+    }
+
+    /* Inline socials row */
+    .hero-socials-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .hero-connect-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+    .hero-connect-label::after {
+      content: '›';
+      font-size: 1rem;
+      color: var(--accent);
+    }
+    .hero-socials {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .hero-socials a {
+      color: var(--fg);
+      font-size: 1.15rem;
+      text-decoration: none;
+      opacity: 0.75;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .hero-socials a:hover {
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    /* ════════════════════════════════
+       SIDEBAR — sticky, starts right after hero
+    ════════════════════════════════ */
+    #sidebar {
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 50;
+      align-self: flex-start;
+    }
+
+    .sidebar-top { padding: 1.5rem 1.5rem 1.2rem; border-bottom: 1px solid var(--border); }
+    .sidebar-photo {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: linear-gradient(135deg, #1a2a4a, #0f1e35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; color: var(--accent);
+      margin-bottom: 0.6rem;
+      box-shadow: 0 0 12px rgba(0,212,255,0.15);
+      overflow: hidden;
+    }
+    .sidebar-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .sidebar-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 700; color: var(--fg); line-height: 1.2; }
+    .sidebar-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.8rem; color: var(--muted); margin-top: 0.22rem; line-height: 1.4; }
+    .sidebar-badge { display: inline-block; margin-top: 0.45rem; padding: 0.16rem 0.5rem; border-radius: 20px; background: rgba(168,255,62,0.08); border: 1px solid rgba(168,255,62,0.2); font-size: 0.58rem; color: var(--accent2); letter-spacing: 0.07em; }
+
+    .sidebar-nav { flex: 1; overflow-y: scroll; padding: 0.9rem 0; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+    .sidebar-nav::-webkit-scrollbar { width: 4px; }
+    .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+    .sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .nav-section-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); padding: 0.65rem 1.5rem 0.28rem; opacity: 0.5; }
+    .sidebar-nav a { display: flex; align-items: center; gap: 0.65rem; padding: 0.48rem 1.5rem; color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: all 0.2s; border-left: 2px solid transparent; }
+    .sidebar-nav a i { width: 14px; font-size: 0.7rem; text-align: center; }
+    .sidebar-nav a:hover { color: var(--fg); background: rgba(255,255,255,0.025); }
+    .sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(0,212,255,0.05); }
+
+    .sidebar-bottom { padding: 1rem 1.5rem; border-top: 1px solid var(--border); }
+    .sidebar-bottom-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.65rem; opacity: 0.5; }
+    .sidebar-contacts { display: flex; flex-direction: column; gap: 0.4rem; }
+    .sidebar-contacts a { display: flex; align-items: center; gap: 0.5rem; color: var(--muted); text-decoration: none; font-size: 0.7rem; transition: color 0.2s; }
+    .sidebar-contacts a:hover { color: var(--accent); }
+    .sidebar-contacts a i { width: 13px; font-size: 0.7rem; }
+    .cv-btn { margin-top: 0.7rem; display: flex; align-items: center; justify-content: center; gap: 0.42rem; padding: 0.5rem; border-radius: 6px; background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); color: var(--accent) !important; font-size: 0.85rem !important; text-decoration: none; transition: all 0.2s; letter-spacing: 0.05em; }
+    .cv-btn:hover { background: rgba(0,212,255,0.14) !important; }
+
+    /* ════════════════════════════════
+       MAIN LAYOUT & CONTENT
+    ════════════════════════════════ */
+    #main-layout { display: flex; min-height: 100vh; align-items: flex-start; }
+    #content { flex: 1; min-height: 100vh; }
+
+    section {
+      padding: 5rem 4rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      will-change: opacity;
+    }
+    section.visible { opacity: 1; }
+    /* Hero always visible, no padding override needed */
+    #hero { opacity: 1 !important; transform: none !important; padding: 0; border-bottom: none; }
+    section:nth-child(even)::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 90% 50%, rgba(0,212,255,0.018) 0%, transparent 70%); pointer-events: none; }
+
+    .section-graph-bg { position: absolute; right: 3rem; top: 50%; transform: translateY(-50%); opacity: 0.04; pointer-events: none; z-index: 0; }
+
+    .section-label { font-family: 'DM Mono', monospace; font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.45rem; position: relative; z-index: 1; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: 2.9rem; font-weight: 700; color: var(--fg); margin-bottom: 2rem; line-height: 1.15; position: relative; z-index: 1; }
+    .section-title em { font-style: italic; color: var(--accent); }
+
+    /* ── ABOUT — full width, single column ── */
+    .about-body { position: relative; z-index: 1; max-width: 100%; }
+    .about-body p { font-family: 'Playfair Display'; font-style: italic; color: #9aaac5; line-height: 1.9; margin-bottom: 1rem; font-size: 1.3rem; }
+    .about-body p:last-child { margin-bottom: 0; }
+    .about-highlight { color: var(--fg) !important; font-weight: 500; }
+    .research-statement { margin-top: 2rem; padding: 1.3rem; background: var(--card); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.96rem; color: #b0c4d8; line-height: 1.85; }
+
+    /* ── RESEARCH INTERESTS ── */
+    .interests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); gap: 1rem; position: relative; z-index: 1; }
+    .interest-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.35rem; transition: border-color 0.3s, transform 0.3s; position: relative; overflow: hidden; }
+    .interest-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--accent), transparent); opacity: 0; transition: opacity 0.3s; }
+    .interest-card:hover { border-color: rgba(0,212,255,0.25); transform: translateY(-2px); }
+    .interest-card:hover::before { opacity: 1; }
+    .interest-icon { font-size: 1.25rem; margin-bottom: 0.65rem; color: var(--accent); }
+    .interest-title { font-family: 'Cormorant Garamond'; font-weight: 700; font-size: 1.2rem; color: var(--fg); margin-bottom: 0.32rem; }
+    .interest-desc { font-family: 'Plus Jakarta Sans', sans-serif; font-style: italic; font-size: 0.76rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── TIMELINE (Education) ── */
+    .timeline { position: relative; padding-left: 2rem; z-index: 1; }
+    .timeline::before { content: ''; position: absolute; left: 0; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(to bottom, var(--accent), transparent); }
+    .timeline-item { position: relative; margin-bottom: 2.4rem; padding-left: 1.5rem; }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before { content: ''; position: absolute; left: -2rem; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px rgba(0,212,255,0.5); }
+    .timeline-date { font-family: 'Plus Jakarta Sans', monospace; font-size: 0.8rem; letter-spacing: 0.12em; color: var(--accent2); text-transform: uppercase; margin-bottom: 0.3rem; }
+    .timeline-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.5rem; color: var(--fg); margin-bottom: 0.12rem; }
+    .timeline-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .timeline-body { font-size: 1.0rem; color: #7a8fa8; line-height: 1.75; }
+    .timeline-body ul { padding-left: 1.1rem; margin-top: 0.35rem; }
+    .timeline-body ul li { margin-bottom: 0.28rem; }
+    .timeline-tag { display: inline-block; margin-top: 0.48rem; margin-right: 0.32rem; padding: 0.16rem 0.52rem; border-radius: 20px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15); font-size: 0.8rem; color: var(--accent); font-family: 'DM Mono', monospace; }
+
+    /* ── EXPERIENCE CARDS (Research + Work) — bubble, single col ── */
+    .exp-cards { display: flex; flex-direction: column; gap: 1.1rem; position: relative; z-index: 1; }
+    .exp-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.6rem; transition: border-color 0.3s, box-shadow 0.3s; }
+    .exp-card:hover { border-color: rgba(0,212,255,0.22); box-shadow: 0 4px 20px rgba(0,0,0,0.25); }
+    .exp-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem; }
+    .exp-card-left {}
+    .exp-card-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.5rem; color: var(--fg); margin-bottom: 0.12rem; }
+    .exp-card-org { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.3rem; color: var(--accent); }
+    .exp-card-supervisor { font-family: 'Cormorant Garamond', sans-serif; font-style: normal; font-size: 1.0rem; color: var(--muted); }
+    .exp-card-date { font-family: 'Josefin Sans'; font-size: 1.0rem; color: var(--muted); white-space: nowrap; padding-top: 0.1rem; }
+    .exp-card-body { font-size: 0.81rem; color: #7a8fa8; line-height: 1.75; }
+    .exp-card-body ul { padding-left: 1.1rem; margin-top: 0.35rem; }
+    .exp-card-body ul li { margin-bottom: 0.28rem; }
+    .exp-card-tags { margin-top: 0.9rem; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .exp-tag { display: inline-block; padding: 0.16rem 0.52rem; border-radius: 20px; background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.15); font-size: 0.7rem; color: var(--accent); font-family: 'DM Mono', monospace; }
+
+    /* ── PROJECTS — single column ── */
+    .projects-list { display: flex; flex-direction: column; gap: 1.1rem; position: relative; z-index: 1; }
+    .project-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; display: flex; gap: 1.3rem; align-items: flex-start; transition: border-color 0.3s; }
+    .project-card:hover { border-color: rgba(0,212,255,0.22); }
+    .project-icon { color: var(--accent); font-size: 1.25rem; margin-top: 0.1rem; flex-shrink: 0; }
+    .project-right { flex: 1; }
+    .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.45rem; flex-wrap: wrap; gap: 0.35rem; }
+    .project-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.3rem; color: var(--fg); }
+    .project-links { display: flex; gap: 0.55rem; }
+    .project-links a { color: var(--muted); font-size: 0.95rem; text-decoration: none; transition: color 0.2s; }
+    .project-links a:hover { color: var(--accent); }
+    .project-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.65; margin-bottom: 0.75rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.38rem; }
+    .tag { padding: 0.14rem 0.48rem; border-radius: 4px; background: rgba(168,255,62,0.06); border: 1px solid rgba(168,255,62,0.15); font-size: 0.75rem; color: var(--accent2); font-family: 'DM Mono', monospace; }
+
+    /* ── PUBLICATIONS ── */
+    .pub-item { display: flex; gap: 1.4rem; padding: 1.4rem 0; border-bottom: 1px solid var(--border); align-items: flex-start; position: relative; z-index: 1; }
+    .pub-item:last-child { border-bottom: none; }
+    .pub-year { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--accent); font-weight: 700; min-width: 48px; line-height: 1; padding-top: 3px; }
+    .pub-content { flex: 1; }
+    .pub-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.1rem; color: var(--fg); margin-bottom: 0.25rem; line-height: 1.4; }
+    .pub-authors { font-size: 0.92rem; color: var(--muted); margin-bottom: 0.22rem; }
+    .pub-venue { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 0.95rem; color: var(--accent2); margin-bottom: 0.48rem; }
+    .pub-links { display: flex; gap: 0.65rem; }
+    .pub-link { font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); text-decoration: none; border: 1px solid rgba(0,212,255,0.2); padding: 0.16rem 0.52rem; border-radius: 4px; transition: background 0.2s; }
+    .pub-link:hover { background: rgba(0,212,255,0.08); }
+
+    /* ── SKILLS ── */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); gap: 1.4rem; position: relative; z-index: 1; }
+    .skill-group-title { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.85rem; }
+    .skill-items { display: flex; flex-wrap: wrap; gap: 0.42rem; }
+    .skill-item { padding: 0.26rem 0.62rem; border-radius: 6px; background: var(--card); border: 1px solid var(--border); font-size: 0.72rem; color: #9aaac5; transition: border-color 0.2s, color 0.2s; }
+    .skill-item:hover { border-color: rgba(0,212,255,0.3); color: var(--accent); }
+
+    /* ── CONFERENCES ── */
+    .conf-cards { display: flex; flex-direction: column; gap: 1rem; position: relative; z-index: 1; }
+    .conf-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.3rem 1.5rem; display: flex; align-items: center; gap: 1.2rem; transition: border-color 0.3s; }
+    .conf-card:hover { border-color: rgba(0,212,255,0.22); }
+    .conf-img { width: 40px; height: 40px; border-radius: 8px; background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.15); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 1rem; flex-shrink: 0; overflow: hidden; }
+    .conf-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 7px; }
+    .conf-year { font-family: 'Space Grotesk', sans-serif; font-size: 0.8rem; color: var(--accent); min-width: 38px; flex-shrink: 0; }
+    .conf-role-badge { font-size: 0.65rem; padding: 0.18rem 0.6rem; border-radius: 20px; background: rgba(56,182,255,0.12); border: 1px solid rgba(56,182,255,0.4); color: #38b6ff; white-space: nowrap; min-width: 66px; text-align: center; flex-shrink: 0; font-weight: 600; letter-spacing: 0.05em; }
+    .conf-info { flex: 1; }
+    .conf-name { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.25rem; color: var(--fg); margin-bottom: 0.18rem; }
+    .conf-location { font-size: 0.88rem; color: var(--muted); }
+    .conf-location i { color: var(--accent); margin-right: 0.28rem; font-size: 0.63rem; }
+    .conf-cert-link { font-size: 0.63rem; color: var(--accent2); text-decoration: none; border: 1px solid rgba(168,255,62,0.2); padding: 0.18rem 0.5rem; border-radius: 4px; font-family: 'DM Mono', monospace; letter-spacing: 0.07em; white-space: nowrap; transition: background 0.2s; flex-shrink: 0; }
+    .conf-cert-link:hover { background: rgba(168,255,62,0.08); }
+
+    /* ── CERTIFICATIONS ── */
+    .cert-list { display: flex; flex-direction: column; gap: 0.72rem; position: relative; z-index: 1; }
+    .cert-item { display: flex; align-items: center; gap: 0.95rem; padding: 0.9rem 1.15rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; transition: border-color 0.3s; }
+    .cert-item:hover { border-color: rgba(0,212,255,0.2); }
+    .cert-icon { width: 33px; height: 33px; border-radius: 7px; background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.15); display: flex; align-items: center; justify-content: center; color: var(--accent); font-size: 0.82rem; flex-shrink: 0; }
+    .cert-info { flex: 1; }
+    .cert-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700; color: var(--fg); }
+    .cert-provider { font-size: 0.88rem; color: var(--muted); margin-top: 0.06rem; }
+    .cert-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.32rem; }
+    .cert-year { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--accent); }
+    .cert-link { font-size: 0.63rem; color: var(--accent2); text-decoration: none; border: 1px solid rgba(168,255,62,0.2); padding: 0.11rem 0.42rem; border-radius: 4px; font-family: 'DM Mono', monospace; letter-spacing: 0.07em; transition: background 0.2s; white-space: nowrap; }
+    .cert-link:hover { background: rgba(168,255,62,0.08); }
+
+    /* ── AWARDS ── */
+    .awards-list { display: flex; flex-direction: column; gap: 0.95rem; position: relative; z-index: 1; }
+    .award-item { display: flex; gap: 1.15rem; align-items: center; padding: 1.25rem; background: var(--card); border: 1px solid var(--border); border-radius: 10px; transition: border-color 0.3s; }
+    .award-item:hover { border-color: rgba(168,255,62,0.2); }
+    .award-img { width: 54px; height: 54px; border-radius: 8px; background: linear-gradient(135deg, #1a2a4a, #0d1830); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; overflow: hidden; }
+    .award-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 7px; }
+    .award-title { font-family: 'Cormorant Garamond', serif; font-weight: 700; font-size: 1.3rem; color: var(--fg); margin-bottom: 0.18rem; }
+    .award-org { font-size: 0.92rem; color: var(--muted); margin-bottom: 0.18rem; }
+    .award-year { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--accent2); }
+    .award-cert-link { font-size: 0.63rem; color: var(--accent2); text-decoration: none; border: 1px solid rgba(168,255,62,0.2); padding: 0.18rem 0.5rem; border-radius: 4px; font-family: 'DM Mono', monospace; letter-spacing: 0.07em; white-space: nowrap; transition: background 0.2s; flex-shrink: 0; }
+    .award-cert-link:hover { background: rgba(168,255,62,0.08); }
+
+    /* ── CV ── */
+    .cv-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2.3rem; display: flex; align-items: center; gap: 2rem; position: relative; z-index: 1; }
+    .cv-icon { font-size: 3rem; color: var(--accent); flex-shrink: 0; }
+    .cv-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 700; color: var(--fg); margin-bottom: 0.38rem; }
+    .cv-info p { font-family: 'Playfair Display'; font-style: italic;  font-size: 1.2rem; color: var(--muted); line-height: 1.65; }
+    .cv-actions { display: flex; gap: 0.75rem; margin-top: 1.1rem; flex-wrap: wrap; }
+    .cv-action-btn { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.58rem 1.15rem; border-radius: 7px; font-size: 0.85rem; text-decoration: none; transition: all 0.2s; font-family: 'DM Mono', monospace; letter-spacing: 0.06em; }
+    .cv-action-btn.primary { background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.3); color: var(--accent); }
+    .cv-action-btn.primary:hover { background: rgba(0,212,255,0.15); }
+    .cv-action-btn.secondary { background: rgba(168,255,62,0.07); border: 1px solid rgba(168,255,62,0.25); color: var(--accent2); }
+    .cv-action-btn.secondary:hover { background: rgba(168,255,62,0.13); }
+
+    /* ── CONTACT ── */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; position: relative; z-index: 1; }
+    .contact-info p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: #7a8fa8; line-height: 1.85; margin-bottom: 1.35rem; }
+    .contact-items { display: flex; flex-direction: column; gap: 0.72rem; }
+    .contact-item { display: flex; align-items: center; gap: 0.95rem; padding: 0.72rem 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; transition: border-color 0.3s, transform 0.2s; }
+    .contact-item:hover { border-color: rgba(0,212,255,0.25); transform: translateX(4px); }
+    .contact-item i { color: var(--accent); width: 16px; font-size: 0.86rem; }
+    .contact-item span { font-size: 1.0rem; color: #9aaac5; }
+    .social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.72rem; }
+    .social-card { display: flex; align-items: center; gap: 0.72rem; padding: 0.85rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; text-decoration: none; transition: border-color 0.3s; }
+    .social-card:hover { border-color: rgba(0,212,255,0.2); }
+    .social-card i { font-size: 1.2rem; color: var(--accent); width: 17px; }
+    .social-card-name { font-size: 0.85rem; font-weight: 600; color: var(--fg); }
+    .social-card-handle { font-family: 'DM Mono', monospace; font-size: 0.63rem; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer { padding: 1.4rem 4rem; border-top: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); }
+
+    /* ── MOBILE ── */
+    .hamburger { display: none; position: fixed; top: 1rem; left: 1rem; z-index: 200; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 0.7rem; cursor: pointer; color: var(--fg); font-size: 1rem; }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 40; }
+
+    @media (max-width: 768px) {
+      .hero-split { flex-direction: column; text-align: center; gap: 2rem; }
+      .hero-right { align-items: center; }
+      .hero-socials { justify-content: center; }
+      /* On mobile sidebar hidden by default, hamburger toggles it */
+      #sidebar { display: none !important; }
+      #sidebar.mobile-open { display: flex !important; }
+      #content { margin-left: 0 !important; }
+      footer { margin-left: 0 !important; }
+      .sidebar-overlay.open { display: block; }
+      section { padding: 3.5rem 1.5rem; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .section-graph-bg { display: none; }
+      .hamburger { display: block; }
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+    /* ── GALLERY ── */
+    .gallery-wrapper { display: flex; align-items: center; gap: 1rem; width: 100%; }
+    .gallery-track-outer { overflow: hidden; flex: 1; padding: 2rem 0; }
+    .gallery-track { display: flex; gap: 1.4rem; width: max-content; animation: galleryScroll 40s linear infinite; }
+    .gallery-track:hover { animation-play-state: paused; }
+    .gallery-item { flex-shrink: 0; width: 370px; transition: transform 0.4s ease; position: relative; z-index: 1; }
+    .gallery-item:hover { transform: scale(1.18); z-index: 10; }
+    .gallery-item img { width: 100%; height: 280px; object-fit: cover; border-radius: 10px; object-position: center; border-radius:10px; border: 1px solid var(--border); display: block; transition: box-shadow 0.4s; }
+    .gallery-item:hover img { box-shadow: 0 12px 48px rgba(0,212,255,0.28); }
+    .gallery-caption { font-family: 'DM Mono', monospace; font-size: 0.63rem; color: var(--muted); text-align: center; margin-top: 0.45rem; }
+    .gallery-arrow { background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); color: var(--accent); border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.2s; font-size: 0.85rem; }
+    .gallery-arrow:hover { background: rgba(0,212,255,0.15); }
+    @keyframes galleryScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  </style>
+</head>
+<body>
+
+<button class="hamburger" id="hamburger" aria-label="Menu"><i class="fa fa-bars"></i></button>
+<div class="sidebar-overlay" id="overlay"></div>
+
+<!-- ════════════════════════════════════
+     HERO
+════════════════════════════════════ -->
+<section id="hero">
+  <canvas id="graph-canvas"></canvas>
+  <div class="hero-split">
+    <!-- Photo -->
+    <div class="hero-left">
+      <div class="hero-photo-wrap">
+        <img src="Achievement Photos/Photo_Shraddha.jpg" alt="Shraddha Harihar">
+      </div>
+    </div>
+
+  <!-- Text -->
+<div class="hero-right">
+  <p style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-style: italic; color: var(--muted);">Hello, I'm</p>
+<div class="hero-name">Shraddha M.</div>
+<div class="hero-name" style="text-align: center;">Harihar</div>
+  <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+    <span style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.8rem; color: var(--muted);">Let's Connect!</span>
+    <div class="hero-socials">
+      <a href="mailto:shraddha.harihar8@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+      <a href="https://linkedin.com/in/shraddha-harihar" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://github.com/ShradHarihar" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="#" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+      <a href="#" title="ResearchGate"><i class="fab fa-researchgate"></i></a>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════
+     MAIN LAYOUT
+════════════════════════════════════ -->
+<div id="main-layout">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sidebar-top">
+      <div style="display: flex; align-items: center; gap: 0.85rem; cursor: pointer;" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+      <div class="sidebar-photo">
+        <img src="Achievement Photos/Photo_Shraddha.jpg" alt="Shraddha Harihar"></div>
+      <div>
+        <div class="sidebar-name">Shraddha M.</div>
+        <div class="sidebar-name" style="text-align: center;">Harihar</div>
+      </div>
+    </div>
+  </div>
+
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Explore</div>
+      <a href="#about"          class="nav-link active"><i class="fas fa-user-circle"></i> About</a>
+      <a href="#interests"      class="nav-link"><i class="fas fa-atom"></i> Research Interests</a>
+      <a href="#education"      class="nav-link"><i class="fas fa-university"></i> Education</a>
+      <a href="#research-exp"   class="nav-link"><i class="fas fa-flask"></i> Research Experience</a>
+      <a href="#work-exp"       class="nav-link"><i class="fas fa-briefcase"></i> Work Experience</a>
+      <a href="#projects"       class="nav-link"><i class="fas fa-project-diagram"></i> Projects</a>
+      <a href="#publications"   class="nav-link"><i class="fas fa-file-alt"></i> Publications</a>
+      <a href="#skills"         class="nav-link"><i class="fas fa-code"></i> Skills</a>
+      <a href="#conferences"    class="nav-link"><i class="fas fa-chalkboard-teacher"></i> Conferences</a>
+      <a href="#certifications" class="nav-link"><i class="fas fa-certificate"></i> Certifications</a>
+      <a href="#awards"         class="nav-link"><i class="fas fa-trophy"></i> Awards</a>
+      <a href="#cv"             class="nav-link"><i class="fas fa-file-pdf"></i> CV</a>
+      <a href="#contact"        class="nav-link"><i class="fas fa-paper-plane"></i> Contact</a>
+      <a href="#gallery"        class="nav-link"><i class="fas fa-image"></i> Gallery</a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <a href="#contact" class="sidebar-bottom-label" style="text-decoration:none; cursor:pointer; display:block; transition: color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color=''">Quick Contact</a>
+      <div class="sidebar-contacts">
+        <a href="mailto:shraddha.harihar8@gmail.com"><i class="fas fa-envelope"></i> shraddha.harihar8@gmail.com</a>
+        <a href="https://linkedin.com/in/shraddha-harihar" target="_blank"><i class="fab fa-linkedin-in"></i> linkedin.com/in/shraddha-harihar</a>
+      <a href="CV_Shraddha_Harihar.pdf" class="cv-btn"><i class="fas fa-eye"></i> View CV</a>
+    </div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main id="content">
+
+    <!-- ABOUT -->
+    <section id="about">
+      <svg class="section-graph-bg" width="260" height="200" viewBox="0 0 260 200">
+        <circle cx="130" cy="100" r="6" fill="#00d4ff"/><circle cx="60" cy="50" r="5" fill="#00d4ff"/><circle cx="200" cy="50" r="5" fill="#00d4ff"/><circle cx="40" cy="150" r="4" fill="#00d4ff"/><circle cx="220" cy="150" r="4" fill="#00d4ff"/><circle cx="130" cy="175" r="4" fill="#a8ff3e"/>
+        <line x1="130" y1="100" x2="60" y2="50" stroke="#00d4ff" stroke-width="1.5"/><line x1="130" y1="100" x2="200" y2="50" stroke="#00d4ff" stroke-width="1.5"/><line x1="130" y1="100" x2="40" y2="150" stroke="#00d4ff" stroke-width="1.5"/><line x1="130" y1="100" x2="220" y2="150" stroke="#00d4ff" stroke-width="1.5"/><line x1="130" y1="100" x2="130" y2="175" stroke="#a8ff3e" stroke-width="1.5"/><line x1="60" y1="50" x2="200" y2="50" stroke="#00d4ff" stroke-width="1"/><line x1="40" y1="150" x2="130" y2="175" stroke="#a8ff3e" stroke-width="1"/><line x1="220" y1="150" x2="130" y2="175" stroke="#a8ff3e" stroke-width="1"/>
+      </svg>
+      <h2 class="section-title">About <em>Me</em></h2>
+      <div class="about-body">
+        <p>Hey, I am <span class="about-highlight">Shraddha Harihar</span>, a mathematician who got curious about how neural networks actually work, went looking for the math behind them, and ended up in graph theory. One question kept leading to the next, and before long it stopped being curiosity and started being the work itself. </p>
+        <p>My focus is on the mathematical foundations of graph neural networks. Understanding what these networks can and cannot do, and why, from the structure of the graph up. Whether it is spectral methods, combinatorial properties, or where graph theory meets cryptography, the question I always start with is: what does the mathematics actually say?</p>
+      </div>
+    </section>
+
+    <!-- RESEARCH INTERESTS -->
+    <section id="interests">
+      <svg class="section-graph-bg" width="240" height="190" viewBox="0 0 240 190">
+        <circle cx="120" cy="95" r="5" fill="#00d4ff"/><circle cx="50" cy="40" r="4" fill="#a8ff3e"/><circle cx="190" cy="40" r="4" fill="#a8ff3e"/><circle cx="30" cy="140" r="4" fill="#a8ff3e"/><circle cx="210" cy="140" r="4" fill="#a8ff3e"/><circle cx="120" cy="170" r="4" fill="#00d4ff"/>
+        <line x1="120" y1="95" x2="50" y2="40" stroke="#00d4ff" stroke-width="1.5"/><line x1="120" y1="95" x2="190" y2="40" stroke="#00d4ff" stroke-width="1.5"/><line x1="120" y1="95" x2="30" y2="140" stroke="#00d4ff" stroke-width="1.5"/><line x1="120" y1="95" x2="210" y2="140" stroke="#00d4ff" stroke-width="1.5"/><line x1="120" y1="95" x2="120" y2="170" stroke="#a8ff3e" stroke-width="1.5"/>
+      </svg>
+      <h2 class="section-title">Research <em>Interests</em></h2>
+      <div class="interests-grid">
+        <div class="interest-card"><div class="interest-icon"><i class="fas fa-project-diagram"></i></div><div class="interest-title">Mathematical Foundations of GNNs</div><div class="interest-desc">Understanding the math behind graph neural networks, spanning spectral graph theory, linear algebra, and how concepts from topology shape the way these networks think and behave.</div></div>
+        <div class="interest-card"><div class="interest-icon"><i class="fas fa-wave-square"></i></div><div class="interest-title">Structural Graph Theory and GNNs</div><div class="interest-desc">Exploring connectivity, domination, and combinatorial graph properties that go beyond surfaces and directly inform how graph neural networks are built and understood.</div></div>
+        <div class="interest-card"><div class="interest-icon"><i class="fas fa-shapes"></i></div><div class="interest-title">Cryptography meets Graph Neural Networks</div><div class="interest-desc">Using GNNs to study and analyze cryptographic systems, exploring how graph structure can reveal what traditional approaches might miss.</div></div>
+        <div class="interest-card"><div class="interest-icon"><i class="fas fa-infinity"></i></div><div class="interest-title">Learning on Graphs, Beyond Theory</div><div class="interest-desc">Bringing mathematically sound GNN methods to real problems, with geometric deep learning as a natural direction, where getting the math right is what makes the application actually trustworthy.</div></div>
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <svg class="section-graph-bg" width="220" height="180" viewBox="0 0 220 180">
+        <circle cx="110" cy="40" r="5" fill="#00d4ff"/><circle cx="40" cy="110" r="4" fill="#a8ff3e"/><circle cx="180" cy="110" r="4" fill="#a8ff3e"/><circle cx="110" cy="160" r="4" fill="#00d4ff"/>
+        <line x1="110" y1="40" x2="40" y2="110" stroke="#00d4ff" stroke-width="1.5"/><line x1="110" y1="40" x2="180" y2="110" stroke="#00d4ff" stroke-width="1.5"/><line x1="40" y1="110" x2="110" y2="160" stroke="#a8ff3e" stroke-width="1.2"/><line x1="180" y1="110" x2="110" y2="160" stroke="#a8ff3e" stroke-width="1.2"/>
+      </svg>
+      <h2 class="section-title"><em>Education</em></h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">2023 — 2025</div>
+          <div class="timeline-title">M.Sc. Mathematics</div>
+          <div class="timeline-sub">MIT World Peace University &nbsp;·&nbsp; Pune, India</div>
+          <div class="timeline-body">Thesis: <em>k-Domination Vertex Connectivity of Connected Graph</em></div>
+          <div class="timeline-body"><strong style="color:var(--accent2)">Silver Medal</strong> &nbsp;·&nbsp; GPA: 9.15 / 10.0</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">2020 - 2023</div>
+          <div class="timeline-title">B.Sc. (Hons.) Mathematics</div>
+          <div class="timeline-sub">M. S. Ramaiah University of Applied Sciences &nbsp;·&nbsp; Bengaluru, India</div>
+           <div class="timeline-body">Thesis: <em>Applications of Number Theory in Cryptography</em></div>
+          <div class="timeline-body">GPA: 8.78 / 10.0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH EXPERIENCE -->
+    <section id="research-exp">
+      <h2 class="section-title">Research <em>Experience</em></h2>
+      <div class="exp-cards">
+        <div class="exp-card">
+          <div class="exp-card-header">
+            <div class="exp-card-left">
+              <div class="exp-card-title"><em>k</em>-Domination Vertex Connectivity of Connected Graphs <a href="https://github.com/ShradHarihar/k-Domination-Vertex-Connectivity-of-Connected-Graphs" target="_blank" style="font-size: 0.85rem; color: var(--accent2); text-decoration: none;"><i class="fas fa-external-link-alt"></i></a></div>
+              <div class="exp-card-org">MIT World Peace University, Pune, India</div>
+              <div class="exp-card-supervisor"><strong>Supervisor:</strong> Prof. Amol Narke</div>
+            </div>
+            <div class="exp-card-date">Aug 2023 - Dec 2024</div>
+          </div>
+          <div class="exp-card-body"><ul>
+            <li>Introduced a new graph parameter unifying domination and vertex connectivity, proving theorems and deriving exact formulas and bounds for paths, cycles, and regular graphs.</li>
+            <li>Developed Python code to computationally verify theoretical results, and prepared a manuscript currently being finalized for journal submission.</li>
+            <li>Presented the work at RAPIAM-2025, JSPM University, Pune, June 2025.</li>
+          </ul></div>
+          <div class="exp-card-tags"><span class="exp-tag">Graph Theory</span><span class="exp-tag">Domination</span><span class="exp-tag">Vertex Connectivity</span><span class="exp-tag">Python</span><span class="exp-tag">LaTeX</span></div>
+        </div>
+
+        <div class="exp-card">
+          <div class="exp-card-header">
+            <div class="exp-card-left">
+              <div class="exp-card-title">Applications of Number Theory in Cryptography <a href="https://github.com/ShradHarihar/Applications-of-Number-Theory-in-Cryptography" target="_blank" style="font-size: 0.85rem; color: var(--accent2); text-decoration: none;"><i class="fas fa-external-link-alt"></i></a></div>
+              <div class="exp-card-org">M. S. Ramaiah University of Applied Sciences, Bengaluru, India</div>
+              <div class="exp-card-supervisor"><strong>Supervisor:</strong> Dr. S. Chandankumar</div>
+            </div>
+            <div class="exp-card-date"> Aug 2022 - May 2023</div>
+          </div>
+          <div class="exp-card-body"><ul>
+            <li>Studied the mathematical foundations of public-key cryptosystems, tracing how prime factorization, modular arithmetic, and the Discrete Logarithm Problem underpin RSA and Diffie-Hellman.</li>
+            <li>Investigated the computational hardness arguments behind cryptographic security, exploring tools like Euler's theorem, Miller-Rabin primality testing, and primitive roots.</li>
+            <li>Implemented RSA encryption in MATLAB to ground the theoretical work in a working practical demonstration.</li>
+          </ul></div>
+          <div class="exp-card-tags"><span class="exp-tag">Number Theory</span><span class="exp-tag">Cryptography</span><span class="exp-tag">Modular Arithmetic</span><span class="exp-tag">RSA</span><span class="exp-tag">MATLAB</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK EXPERIENCE -->
+    <section id="work-exp">
+      <h2 class="section-title">Work <em>Experience</em></h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">Feb 2025 - Feb 2026</div>
+          <div class="timeline-title">Research Analyst</div>
+          <div class="timeline-sub">MyAnatomy Integration &nbsp;·&nbsp; Bengaluru, India</div>
+          <div class="timeline-body"><ul>
+            <li>Investigated how AI and ML tools, including LLMs, chatbots, and NLP APIs, could be integrated into a recruitment and assessment platform, evaluating their feasibility and fit.</li>
+            <li>Built proof-of-concept NLP prototypes including job-role extraction and automated question generation systems to test model performance in practice.</li>
+            <li>Analyzed platform data and user interactions to spot technical bottlenecks and identify where AI could meaningfully improve the product.</li>
+          </ul></div>
+          <span class="timeline-tag">NLP</span><span class="timeline-tag">LLMs</span><span class="timeline-tag">Python</span><span class="timeline-tag">Applied AI</span>
+ 
+ 
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-date">April 2024</div>
+          <div class="timeline-title">Data Science Intern</div>
+          <div class="timeline-sub">Prodigy Infotech&nbsp;·&nbsp; Remote</div>
+          <div class="timeline-body"><ul>
+            <li>Worked with customer demographic and behavioral data, applying exploratory data analysis and building a decision tree classifier.</li>
+            <li>Used NLP tools to analyze sentiment in customer food reviews, turning unstructured text into measurable insights.</li></ul>
+          <span class="timeline-tag">EDA</span><span class="timeline-tag">NLP</span><span class="timeline-tag">NLTK</span><span class="timeline-tag">TextBlob</span><span class="timeline-tag">Scikit-learn</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <svg class="section-graph-bg" width="220" height="180" viewBox="0 0 220 180">
+        <circle cx="110" cy="55" r="5" fill="#00d4ff"/><circle cx="40" cy="125" r="4" fill="#a8ff3e"/><circle cx="180" cy="125" r="4" fill="#a8ff3e"/><circle cx="110" cy="165" r="4" fill="#00d4ff"/>
+        <line x1="110" y1="55" x2="40" y2="125" stroke="#00d4ff" stroke-width="1.5"/><line x1="110" y1="55" x2="180" y2="125" stroke="#00d4ff" stroke-width="1.5"/><line x1="40" y1="125" x2="110" y2="165" stroke="#a8ff3e" stroke-width="1.2"/><line x1="180" y1="125" x2="110" y2="165" stroke="#a8ff3e" stroke-width="1.2"/><line x1="40" y1="125" x2="180" y2="125" stroke="#00d4ff" stroke-width="0.8"/>
+      </svg>
+      <h2 class="section-title">Projects</h2>
+      <div class="projects-list">
+
+  <div class="project-card">
+    <div class="project-icon"><i class="fas fa-eye-slash"></i></div>
+    <div class="project-right">
+      <div class="project-header"><div class="project-title">Morse Code Detection via Eye Blinks</div><div class="project-links"><a href="https://github.com/ShradHarihar/Morse-Code-Detector-using-Eye-Blinks" title="GitHub"><i class="fab fa-github"></i></a></div></div>
+      <div class="project-desc">Built a real-time Morse code translator that tracks eye blinks using facial landmark detection, converting blink patterns into characters without any physical input device.</div>
+      <div class="project-tags"><span class="tag">OpenCV</span><span class="tag">MediaPipe</span><span class="tag">Python</span><span class="tag">Computer Vision</span></div>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="project-icon"><i class="fas fa-brain"></i></div>
+    <div class="project-right">
+      <div class="project-header"><div class="project-title">Machine Learning Algorithms</div><div class="project-links"><a href="https://github.com/ShradHarihar/Machine-Learning-Algorithm" title="GitHub"><i class="fab fa-github"></i></a></div></div>
+      <div class="project-desc">Implemented core supervised learning algorithms from scratch, covering Linear Regression, Logistic Regression, Decision Trees, and Kernel SVM. Applied them to real datasets to understand how each method learns, where it works, and where it does not.</div>
+      <div class="project-tags"><span class="tag">Supervised Learning</span><span class="tag">Scikit-learn</span><span class="tag">Python</span><span class="tag">Jupyter</span></div>
+    </div>
+  </div>  
+
+  <div class="project-card">
+    <div class="project-icon"><i class="fas fa-comments"></i></div>
+    <div class="project-right">
+      <div class="project-header"><div class="project-title">Sentiment Analysis on Large-Scale Text Data</div><div class="project-links"><a href="https://github.com/ShradHarihar/Prodigy_DS_04" title="GitHub"><i class="fab fa-github"></i></a></div></div>
+      <div class="project-desc">Analyzed close to 500,000 fine food reviews spanning over a decade, applying text preprocessing, sentiment scoring, and visualization to extract meaningful patterns from unstructured text at scale.</div>
+      <div class="project-tags"><span class="tag">NLP</span><span class="tag">NLTK</span><span class="tag">TextBlob</span><span class="tag">VaderSentiment</span><span class="tag">Python</span></div>
+    </div>
+  </div>
+
+<div class="project-card">
+    <div class="project-icon"><i class="fas fa-chess-board"></i></div>
+    <div class="project-right">
+      <div class="project-header"><div class="project-title">Tic-Tac-Toe vs AI</div><div class="project-links"><a href="https://github.com/ShradHarihar/Tic-Tac-Toe-Player-vs-AI-" title="GitHub"><i class="fab fa-github"></i></a></div></div>
+      <div class="project-desc">Built a graphical Tic-Tac-Toe game with an unbeatable AI opponent powered by the Minimax algorithm, handling full game state management for optimal move selection at every step.</div>
+      <div class="project-tags"><span class="tag">Minimax Algorithm</span><span class="tag">Python</span><span class="tag">Pygame</span></div>
+    </div>
+  </div>
+  
+  <div class="project-card">
+    <div class="project-icon"><i class="fas fa-hand-pointer"></i></div>
+    <div class="project-right">
+      <div class="project-header"><div class="project-title">Virtual Mouse</div><div class="project-links"><a href="https://github.com/ShradHarihar/Virtual-AI-Mouse" title="GitHub"><i class="fab fa-github"></i></a></div></div>
+      <div class="project-desc">Turned hand gestures into mouse controls using real-time hand landmark recognition, mapping movements and gestures directly to cursor actions without touching a mouse.</div>
+      <div class="project-tags"><span class="tag">OpenCV</span><span class="tag">MediaPipe</span><span class="tag">PyAutoGUI</span><span class="tag">Python</span></div>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="project-icon"><i class="fas fa-eye-slash"></i></div>
+    <div class="project-right">
+      <div class="project-header"><div class="project-title">Harry Potter Invisibility Cloak</div><div class="project-links"><a href="https://github.com/ShradHarihar/Harry-Potter-Invisibility-Cloak" title="GitHub"><i class="fab fa-github"></i></a></div></div>
+      <div class="project-desc">Built a real-time Morse code translator that tracks eye blinks using facial landmark detection, converting blink patterns into characters without any physical input device.</div>
+      <div class="project-tags"><span class="tag">OpenCV</span><span class="tag">MediaPipe</span><span class="tag">Python</span><span class="tag">Computer Vision</span></div>
+    </div>
+  </div> 
+</div>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section id="publications">
+      <h2 class="section-title"><em>Publications</em></h2>
+      <div class="pub-item">
+        <div class="pub-year">2024</div>
+        <div class="pub-content">
+          <div class="pub-title">On the Expressive Power of Higher-Order Weisfeiler–Leman Graph Neural Networks</div>
+          <div class="pub-authors">Shraddha Harihar, Jane Doe, John Smith</div>
+          <div class="pub-venue">NeurIPS 2024 Workshop on Graph Representation Learning</div>
+          <div class="pub-links"><a href="#" class="pub-link">PDF</a><a href="#" class="pub-link">arXiv</a><a href="#" class="pub-link">Cite</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h2 class="section-title">Skills &amp; <em>Tools</em></h2>
+      <div class="skills-grid">
+        <div><div class="skill-group-title">Mathematics</div><div class="skill-items"><span class="skill-item">Graph Theory</span><span class="skill-item">Number Theory</span><span class="skill-item">Linear Algebra</span><span class="skill-item">Probability and Statistics</span><span class="skill-item">Cryptography</span></div></div>
+        <div><div class="skill-group-title">Machine Learning</div><div class="skill-items"><span class="skill-item">Neural Networks</span><span class="skill-item">Deep Learning</span><span class="skill-item">NLP</span><span class="skill-item">Supervised & Unsupervised Learning</span></div></div>
+        <div><div class="skill-group-title">Programming</div><div class="skill-items"><span class="skill-item">Python</span><span class="skill-item">R</span><span class="skill-item">MATLAB</span><span class="skill-item">SQL</span></div></div>
+        <div><div class="skill-group-title">Libraries & Frameworks</div><div class="skill-items"><span class="skill-item">NumPy</span><span class="skill-item">SciPy</span><span class="skill-item">Pandas</span><span class="skill-item">Matplotlib</span><span class="skill-item">Tensorflow</span><span class="skill-item">Keras</span><span class="skill-item">OpenCV</span><span class="skill-item">Scikit-learn</span><span class="skill-item">NLTK</span><span class="skill-item">Seaborn</span></div></div>
+        <div><div class="skill-group-title">Tools</div><div class="skill-items"><span class="skill-item">LaTeX</span><span class="skill-item">Jupyter Notebook</span><span class="skill-item">Spyder</span><span class="skill-item">RStudio</span><span class="skill-item">Git/Github</span></div></div>
+      </div>
+    </section>
+
+    <!-- CONFERENCES -->
+    <section id="conferences">
+      <h2 class="section-title">Conferences &amp; <em>Events</em></h2>
+      <div class="conf-cards">
+        <div class="conf-card">
+          <div class="conf-img"><!-- <img src="neurips2024.jpg" alt="NeurIPS 2024"> --><i class="fas fa-chalkboard-teacher"></i></div>
+          <span class="conf-year">June 2025</span>
+          <span class="conf-role-badge">Oral Presenter</span>
+          <div class="conf-info">
+            <div class="conf-name">RAPIAM-2025</div>
+            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>JSPM University, Pune, India</div>
+          </div>
+          <a href="Certifictates/RAPIAM_Miss. Shraddha M. Harihar_Certificate for Paper Presentation.pdf" class="conf-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
+        </div>
+        <div class="conf-card">
+          <div class="conf-img"><!-- <img src="neurips2024.jpg" alt="NeurIPS 2024"> --><i class="fas fa-globe-asia"></i></div>
+          <span class="conf-year">Dec 2024</span>
+          <span class="conf-role-badge">Attendee</span>
+          <div class="conf-info">
+            <div class="conf-name">90th Annual Conference of Indian Mathematical Society: An International Meet</div>
+            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>MIT WPU, Pune, India</div>
+          </div>
+          <a href="Achievement Photos/IMS Welcome.jpeg" class="conf-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
+        </div>      
+        <div class="conf-card">
+          <div class="conf-img"><!-- <img src="icml2023.jpg" alt="ICML 2023"> --><i class="fa-solid fa-microphone"></i></div>
+          <span class="conf-year">May 2023</span>
+          <span class="conf-role-badge">Participant</span>
+          <div class="conf-info">
+            <div class="conf-name">Summer School on PDEs</div>
+            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>Christ University, Bengaluru, India</div>
+          </div>
+          <a href="Certifictates/Summer School_Christ University_2023.pdf" class="conf-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
+        </div>
+        <div class="conf-card">
+          <div class="conf-img"><!-- <img src="iclr2023.jpg" alt="ICLR 2023"> --><i class="fas fa-landmark"></i></div>
+          <span class="conf-year">June 2021</span>
+          <span class="conf-role-badge">Participant</span>
+          <div class="conf-info">
+            <div class="conf-name">Algorithms in the Indic Tradition</div>
+            <div class="conf-location"><i class="fas fa-map-marker-alt"></i>National Institute of Advanced Studies, Bengaluru, India</div>
+          </div>
+          <a href="Certifictates/NIAS_Math Heritage_June-2021.pdf" class="conf-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <h2 class="section-title">Certifications &amp; <em>Courses</em></h2>
+    <div class="cert-list">
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-brain"></i></div><div class="cert-info"><div class="cert-name">Deep Learning Fundamentals with Keras</div><div class="cert-provider">edX &nbsp;·&nbsp; IBM</div></div><div class="cert-right"><span class="cert-year">Jan 2024</span><a href="Certifictates/Deep Learning_edX_Jan 2024.pdf" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-robot"></i></div><div class="cert-info"><div class="cert-name">Generative AI for Business Leaders</div><div class="cert-provider">edX</div></div><div class="cert-right"><span class="cert-year">Jan 2024</span><a href="Certifictates/Generative AI for Business leaders_edX_Jan 2024.pdf" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-project-diagram"></i></div><div class="cert-info"><div class="cert-name">Introduction to Graph Theory</div><div class="cert-provider">Coursera &nbsp;·&nbsp; University of San Diego</div></div><div class="cert-right"><span class="cert-year">Dec 2023</span><a href="Certifictates/Intro to Graph Theory_California San Diego_Dec 2023.pdf" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-chart-bar"></i></div><div class="cert-info"><div class="cert-name">Data Science: R Basics</div><div class="cert-provider">edX &nbsp;·&nbsp; HarvardX</div></div><div class="cert-right"><span class="cert-year">Dec 2023</span><a href="Certifictates/Data Science_R Basics_HarvardX_Dec 2023.pdf" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-tools"></i></div><div class="cert-info"><div class="cert-name">Data Sciences: Productivity Tools</div><div class="cert-provider">edX &nbsp;·&nbsp; HarvardX</div></div><div class="cert-right"><span class="cert-year">Dec 2023</span><a href="Certifictates/Data Science_Productivity Tools_HarvardX_Dec 2023.pdf" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-microchip"></i></div><div class="cert-info"><div class="cert-name">AI for Everyone: Master the Basics</div><div class="cert-provider">edX &nbsp;·&nbsp; IBM</div></div><div class="cert-right"><span class="cert-year">Nov 2023</span><a href="Certifictates/AI_IBM_Master the basics_26.11.23.png" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-shield-alt"></i></div><div class="cert-info"><div class="cert-name">Python and Cybersecurity Bootcamp</div><div class="cert-provider">Shape AI</div></div><div class="cert-right"><span class="cert-year">May 2023</span><a href="Certifictates/Shape AI_Google Developers_June 2021.pdf" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+    <div class="cert-item"><div class="cert-icon"><i class="fas fa-square-root-alt"></i></div><div class="cert-info"><div class="cert-name">Matrix Solver</div><div class="cert-provider">NPTEL &nbsp;·&nbsp; IIT Kharagpur</div></div><div class="cert-right"><span class="cert-year">Oct 2022</span><a href="Certifictates/NPTEL_Matrix Solver_Certificate.jpg" class="cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a></div></div>
+  </div>
+</section>
+
+    <!-- AWARDS -->
+    <section id="awards">
+      <h2 class="section-title">Awards &amp; <em>Honours</em></h2>
+      <div class="awards-list">
+        <div class="award-item">
+          <div class="award-img">🏆<!-- Replace with: <img src="award1.jpg"> --></div>
+          <div style="flex:1">
+            <div class="award-title">Best Research Award&nbsp;·&nbsp; <span style="color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 400;">May 2025</span></div>
+            <div class="award-org">MIT World Peace University</div>
+            <div class="award-desc" style="font-size: 0.81rem; color: var(--muted); margin-top: 0.35rem;">For outstanding research on k-Domination Vertex Connectivity of Connected Graphs.</div>
+          </div>
+          <a href="Achievement Photos/Best Research Certificate.jpeg" class="award-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
+        </div>
+        <div class="award-item">
+          <div class="award-img">🎓<!-- Replace with: <img src="award2.jpg"> --></div>
+          <div style="flex:1">
+            <div class="award-title">Dr. Vishwanath Karad Scholarship &nbsp;·&nbsp; <span style="color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 400;">2023 - 2025</span></div>
+            <div class="award-org">MIT World Peace University</div>
+            <div class="award-desc" style="font-size: 0.81rem; color: var(--muted); margin-top: 0.35rem;">100% merit scholarship awarded to the top 1% of students for academic excellence across the full two years of MSc Mathematics.</div>
+          </div>
+          <a href="Achievement Photos/Scholarship Certificate.jpeg" class="award-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
+        </div>
+        <div class="award-item">
+          <div class="award-img">🥈<!-- Replace with: <img src="award3.jpg"> --></div>
+          <div style="flex:1">
+            <div class="award-title">Silver Medal&nbsp;·&nbsp; <span style="color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 400;">June 2025</span></div>
+            <div class="award-org">MIT World Peace University</div>
+            <div class="award-desc" style="font-size: 0.81rem; color: var(--muted); margin-top: 0.35rem;">Awarded for attaining a top-tier GPA in the MSc Mathematics cohort.</div>
+          </div>
+          <a href="Certifictates/MSc Silver Medal Certificate.pdf" class="award-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
+        </div>
+        <div class="award-item">
+          <div class="award-img">🥇<!-- Replace with: <img src="award3.jpg"> --></div>
+          <div style="flex:1">
+            <div class="award-title">Winner, Ideathon at Hackathon&nbsp;·&nbsp; <span style="color: var(--accent2); font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 400;">March 2024</span></div>
+            <div class="award-org">MIT World Peace University</div>
+            <div class="award-desc" style="font-size: 0.81rem; color: var(--muted); margin-top: 0.35rem;">First place for the crime detection and crowd management system built using the YOLO object detection algorithm.</div>
+          </div>
+          <a href="Certifictates/Hackathon Certificate.jpg" class="award-cert-link" target="_blank"><i class="fas fa-external-link-alt"></i> Certificate</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CV -->
+    <section id="cv">
+      <h2 class="section-title">My <em>CV</em></h2>
+      <div class="cv-box">
+        <div class="cv-icon"><i class="fas fa-file-alt"></i></div>
+        <div class="cv-info">
+          <h3>Curriculum Vitae</h3>
+          <p>A full record of my academic journey, covering education, research, conferences, awards, and coursework.</p><p>Last updated April 2026.</p>
+          <div class="cv-actions">
+            <a href="CV_Shraddha_Harihar.pdf" class="cv-action-btn primary" target="_blank"><i class="fas fa-eye"></i> View CV</a>
+            <a href="CV_Shraddha_Harihar.pdf" class="cv-action-btn secondary" download><i class="fas fa-download"></i> Download PDF</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <h2 class="section-title">Let's <em>Connect!</em></h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p>Open to research collaborations, academic discussions, and anything that sits at the intersection of graph theory and neural networks.</p>
+          <div class="contact-items">
+            <a href="mailto:shraddha.harihar8@gmail.com" class="contact-item"><i class="fas fa-envelope"></i><span>shraddha.harihar8@gmail.com</span></a>
+            <a href="https://maps.app.goo.gl/LriKpBphu2cPtP7C6" class="contact-item"><i class="fas fa-map-marker-alt"></i><span>India</span></a>
+          </div>
+        </div>
+        <div>
+          <div class="social-grid">
+            <a href="https://linkedin.com/in/shraddha-harihar" class="social-card" target="_blank"><i class="fab fa-linkedin-in"></i><div><div class="social-card-name">LinkedIn</div><div class="social-card-handle">in/shraddha-harihar</div></div></a>
+            <a href="https://github.com/ShradHarihar" class="social-card" target="_blank"><i class="fab fa-github"></i><div><div class="social-card-name">GitHub</div><div class="social-card-handle">@ShradHarihar</div></div></a>
+            <a href="#" class="social-card" target="_blank"><i class="fas fa-graduation-cap"></i><div><div class="social-card-name">Google Scholar</div><div class="social-card-handle">Shraddha Harihar</div></div></a>
+            <a href="#" class="social-card" target="_blank"><i class="fab fa-researchgate"></i><div><div class="social-card-name">ResearchGate</div><div class="social-card-handle">Shraddha_Harihar</div></div></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+      <h2 class="section-title">My <em>Gallery</em></h2>
+      <div class="gallery-wrapper">
+        <button class="gallery-arrow" onclick="shiftGallery(-1)"><i class="fas fa-chevron-left"></i></button>
+        <div class="gallery-track-outer">
+          <div class="gallery-track" id="galleryTrack" style="display: flex; flex-direction: row; flex-wrap: nowrap;"></div>
+            <div class="gallery-item"><img src="Achievement Photos/Scholarship.jpeg" alt=""><div class="gallery-caption">MSc Scholarship</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/IMS Welcome.jpeg" alt=""><div class="gallery-caption">Welcoming at the IMS</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Dissertation Presentation.jpeg" alt=""><div class="gallery-caption">MSc Dissertation</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/Hackathon.jpeg" alt=""><div class="gallery-caption">Hackathon</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/AlphaBetaPruning Presentation.jpeg" alt=""><div class="gallery-caption">Alpha-Beta Pruning</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Graduation.jpeg" alt=""><div class="gallery-caption">BSc Graduation</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Dissertation.jpeg" alt=""><div class="gallery-caption">BSc Dissertation Copies</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/RAPIAM Presentation.jpeg" alt=""><div class="gallery-caption">RAPIAM-2025</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Presentation.jpeg" alt=""><div class="gallery-caption">Number Theory</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/Edited_MSc Silver Medal.png" alt=""><div class="gallery-caption">MSc Silver Medal</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/IISER.jpeg" alt=""><div class="gallery-caption">IISER Pune</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Degree_Silver medal.jpeg" alt=""><div class="gallery-caption">MSc Silver Medal</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/RAPIAM.jpeg" alt=""><div class="gallery-caption">RAPIAM-2025</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Dissertation.jpeg" alt=""><div class="gallery-caption">MSc Dissertation Copies</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/TicTacToe Presentation.jpeg" alt=""><div class="gallery-caption">Minimax Algorithm</div></div>
+            
+            <!-- Duplicate for seamless loop -->
+             <div class="gallery-item"><img src="Achievement Photos/Scholarship.jpeg" alt=""><div class="gallery-caption">MSc Scholarship</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/IMS Welcome.jpeg" alt=""><div class="gallery-caption">Welcoming at the IMS</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Dissertation Presentation.jpeg" alt=""><div class="gallery-caption">MSc Dissertation</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/Hackathon.jpeg" alt=""><div class="gallery-caption">Hackathon</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/AlphaBetaPruning Presentation.jpeg" alt=""><div class="gallery-caption">Alpha-Beta Pruning</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Graduation.jpeg" alt=""><div class="gallery-caption">BSc Graduation</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Dissertation.jpeg" alt=""><div class="gallery-caption">BSc Dissertation Copies</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/RAPIAM Presentation.jpeg" alt=""><div class="gallery-caption">RAPIAM-2025</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Presentation.jpeg" alt=""><div class="gallery-caption">Number Theory</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/Edited_MSc Silver Medal.png" alt=""><div class="gallery-caption">MSc Silver Medal</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/IISER.jpeg" alt=""><div class="gallery-caption">IISER Pune</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Degree_Silver medal.jpeg" alt=""><div class="gallery-caption">MSc Silver Medal</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/RAPIAM.jpeg" alt=""><div class="gallery-caption">RAPIAM-2025</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Dissertation.jpeg" alt=""><div class="gallery-caption">MSc Dissertation Copies</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/TicTacToe Presentation.jpeg" alt=""><div class="gallery-caption">Minimax Algorithm</div></div>
+          </div>
+        </div>
+        <button class="gallery-arrow" onclick="shiftGallery(1)"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </section>
+  
+  </main>
+</div>
+
+<script>
+// ── Animated GNN Graph (hero background, subtle) ──
+const canvas = document.getElementById('graph-canvas');
+const ctx = canvas.getContext('2d');
+let nodes = [], edges = [], W, H;
+
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+
+function initGraph() {
+  nodes = []; edges = [];
+  const count = Math.floor((W * H) / 18000);
+  for (let i = 0; i < count; i++) {
+    nodes.push({ x: Math.random()*W, y: Math.random()*H, vx: (Math.random()-0.5)*0.25, vy: (Math.random()-0.5)*0.25, r: Math.random()*2+1.2, pulse: Math.random()*Math.PI*2 });
+  }
+  for (let i = 0; i < nodes.length; i++) {
+    const c = Math.floor(Math.random()*2)+1;
+    for (let k = 0; k < c; k++) { const j = Math.floor(Math.random()*nodes.length); if (j!==i) edges.push([i,j]); }
+  }
+}
+
+function drawGraph() {
+  ctx.clearRect(0,0,W,H);
+  edges.forEach(([i,j]) => {
+    const a=nodes[i], b=nodes[j], d=Math.hypot(a.x-b.x,a.y-b.y);
+    if (d>260) return;
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+    ctx.strokeStyle=`rgba(0,212,255,${(1-d/260)*0.3})`; ctx.lineWidth=0.7; ctx.stroke();
+  });
+  nodes.forEach(n => {
+    n.pulse+=0.015;
+    const a=0.25+0.4*(0.5+0.5*Math.sin(n.pulse));
+    ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(0,212,255,${a*1.0})`; ctx.fill();
+    n.x+=n.vx; n.y+=n.vy;
+    if(n.x<0||n.x>W) n.vx*=-1; if(n.y<0||n.y>H) n.vy*=-1;
+  });
+  requestAnimationFrame(drawGraph);
+}
+resize(); initGraph(); requestAnimationFrame(drawGraph);
+window.addEventListener('resize', ()=>{ resize(); initGraph(); });
+
+// ── Section reveal on scroll ──
+new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07 }).observe = (function(orig){
+  return function(el){ orig.call(this,el); };
+})(IntersectionObserver.prototype.observe);
+
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('#content section').forEach(s => revealObs.observe(s));
+
+// ── Active nav link ──
+const navLinks = document.querySelectorAll('.nav-link');
+const navObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (a) { a.classList.add('active'); a.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('section[id]').forEach(s => navObs.observe(s));
+
+// ── Sidebar: always pinned on desktop, no toggling needed ──
+// Sidebar is always visible; no IntersectionObserver needed for show/hide.
+
+// ── Mobile hamburger — toggles sidebar as overlay, never auto-shown ──
+const hamburger = document.getElementById('hamburger');
+const overlay   = document.getElementById('overlay');
+hamburger.addEventListener('click', () => {
+  sidebar.classList.toggle('mobile-open');
+  overlay.classList.toggle('open');
+});
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('mobile-open');
+  overlay.classList.remove('open');
+});
+document.querySelectorAll('.nav-link').forEach(l => {
+  l.addEventListener('click', (e) => {
+    const href = l.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    }
+    sidebar.classList.remove('mobile-open');
+    overlay.classList.remove('open');
+  });
+});
+
+function shiftGallery(dir) {
+  const track = document.getElementById('galleryTrack');
+  const currentTransform = new WebKitCSSMatrix(window.getComputedStyle(track).transform);
+  const currentX = currentTransform.m41;
+  const newX = currentX + (dir * -280);
+  track.style.animation = 'none';
+  track.style.transform = `translateX(${newX}px)`;
+  setTimeout(() => {
+    track.style.transition = 'none';
+    track.style.animation = 'galleryScroll 40s linear infinite';
+  }, 800);
+}
+
+</script>
+</body>
+</html>
