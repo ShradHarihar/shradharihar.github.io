@@ -379,6 +379,18 @@
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+    .gallery-wrapper { position: relative; display: flex; align-items: center; gap: 1rem; }
+    .gallery-track-outer { overflow: hidden; width: 100%; }
+    .gallery-track { display: flex; gap: 1.2rem; width: max-content; animation: galleryScroll 40s linear infinite; }
+    .gallery-track:hover { animation-play-state: paused; }
+    .gallery-item { flex-shrink: 0; width: 260px; }
+    .gallery-item img { width: 100%; height: 165px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); display: block; }
+    .gallery-caption { font-family: 'Playfair Display', serif; font-style:italic; font-size: 1.0rem; color: var(--muted); text-align: center; margin-top: 0.45rem; }
+    .gallery-arrow { background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); color: var(--accent); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.2s; font-size: 0.85rem; }
+    .gallery-arrow:hover { background: rgba(0,212,255,0.15); }
+    @keyframes galleryScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
   </style>
 </head>
 <body>
@@ -451,6 +463,7 @@
       <a href="#awards"         class="nav-link"><i class="fas fa-trophy"></i> Awards</a>
       <a href="#cv"             class="nav-link"><i class="fas fa-file-pdf"></i> CV</a>
       <a href="#contact"        class="nav-link"><i class="fas fa-paper-plane"></i> Contact</a>
+      <a href="#gallery"        class="nav-link"><i class="fas fa-image"></i> Gallery</a>
     </nav>
 
     <div class="sidebar-bottom">
@@ -790,7 +803,7 @@
         <div class="cv-icon"><i class="fas fa-file-alt"></i></div>
         <div class="cv-info">
           <h3>Curriculum Vitae</h3>
-          <p>A full record of my academic journey, covering education, research, conferences, awards, and coursework. Last updated April 2026.</p>
+          <p>A full record of my academic journey, covering education, research, conferences, awards, and coursework.</p><p>Last updated April 2026.</p>
           <div class="cv-actions">
             <a href="CV_Shraddha_Harihar.pdf" class="cv-action-btn primary" target="_blank"><i class="fas fa-eye"></i> View CV</a>
             <a href="CV_Shraddha_Harihar.pdf" class="cv-action-btn secondary" download><i class="fas fa-download"></i> Download PDF</a>
@@ -820,6 +833,52 @@
         </div>
       </div>
     </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+      <h2 class="section-title">My <em>Gallery</em></h2>
+      <div class="gallery-wrapper"></div>
+        <button class="gallery-arrow" onclick="shiftGallery(-1)"><i class="fas fa-chevron-left"></i></button>
+        <div class="gallery-track-outer">
+          <div class="gallery-track" id="galleryTrack"></div>
+            <div class="gallery-item"><img src="Achievement Photos/Scholarship.jpeg" alt=""><div class="gallery-caption">MSc Scholarship</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/IMS Welcome.jpeg" alt=""><div class="gallery-caption">Welcoming at the IMS</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Dissertation Presentation.jpeg" alt=""><div class="gallery-caption">MSc Dissertation</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/Hackathon.jpeg" alt=""><div class="gallery-caption">Hackathon</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/AlphaBetaPruning Presentation.jpeg" alt=""><div class="gallery-caption">Alpha-Beta Pruning</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Graduation.jpeg" alt=""><div class="gallery-caption">BSc Graduation</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Dissertation.jpeg" alt=""><div class="gallery-caption">BSc Dissertation Copies</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/RAPIAM Presentation.jpeg" alt=""><div class="gallery-caption">RAPIAM-2025</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Presentation.jpeg" alt=""><div class="gallery-caption">Number Theory</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/Edited_MSc Silver Medal.png" alt=""><div class="gallery-caption">MSc Silver Medal</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/IISER.jpeg" alt=""><div class="gallery-caption">IISER Pune</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Degree_Silver medal.jpeg" alt=""><div class="gallery-caption">MSc Silver Medal</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/RAPIAM.jpeg" alt=""><div class="gallery-caption">RAPIAM-2025</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Dissertation.jpeg" alt=""><div class="gallery-caption">MSc Dissertation Copies</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/TicTacToe Presentation.jpeg" alt=""><div class="gallery-caption">Minimax Algorithm</div></div>
+            
+            <!-- Duplicate for seamless loop -->
+             <div class="gallery-item"><img src="Achievement Photos/Scholarship.jpeg" alt=""><div class="gallery-caption">MSc Scholarship</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/IMS Welcome.jpeg" alt=""><div class="gallery-caption">Welcoming at the IMS</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Dissertation Presentation.jpeg" alt=""><div class="gallery-caption">MSc Dissertation</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/Hackathon.jpeg" alt=""><div class="gallery-caption">Hackathon</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/AlphaBetaPruning Presentation.jpeg" alt=""><div class="gallery-caption">Alpha-Beta Pruning</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Graduation.jpeg" alt=""><div class="gallery-caption">BSc Graduation</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Dissertation.jpeg" alt=""><div class="gallery-caption">BSc Dissertation Copies</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/RAPIAM Presentation.jpeg" alt=""><div class="gallery-caption">RAPIAM-2025</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/BSc Presentation.jpeg" alt=""><div class="gallery-caption">Number Theory</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/Edited_MSc Silver Medal.png" alt=""><div class="gallery-caption">MSc Silver Medal</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/IISER.jpeg" alt=""><div class="gallery-caption">IISER Pune</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Degree_Silver medal.jpeg" alt=""><div class="gallery-caption">MSc Silver Medal</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/RAPIAM.jpeg" alt=""><div class="gallery-caption">RAPIAM-2025</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/MSc Dissertation.jpeg" alt=""><div class="gallery-caption">MSc Dissertation Copies</div></div>
+            <div class="gallery-item"><img src="Achievement Photos/TicTacToe Presentation.jpeg" alt=""><div class="gallery-caption">Minimax Algorithm</div></div>
+          </div>
+        </div>
+        <button class="gallery-arrow" onclick="shiftGallery(1)"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </section>
+  
   </main>
 </div>
 
@@ -915,6 +974,18 @@ document.querySelectorAll('.nav-link').forEach(l => {
     overlay.classList.remove('open');
   });
 });
+
+function shiftGallery(dir) {
+  const track = document.getElementById('galleryTrack');
+  track.style.animation = 'none';
+  const currentTransform = new WebKitCSSMatrix(window.getComputedStyle(track).transform);
+  const currentX = currentTransform.m41;
+  track.style.transform = `translateX(${currentX + (dir * -280)}px)`;
+  setTimeout(() => {
+    track.style.animation = 'galleryScroll 40s linear infinite';
+  }, 600);
+}
+
 </script>
 </body>
 </html>
