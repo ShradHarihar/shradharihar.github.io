@@ -381,17 +381,18 @@
 
     /* ── GALLERY ── */
     .gallery-wrapper { display: flex; align-items: center; gap: 1rem; width: 100%; }
-    .gallery-track-outer { overflow: hidden; flex: 1; padding: 2rem 0; max-width: 1100px}
+    .gallery-track-outer { overflow: hidden; flex: 1; padding: 2rem 0; max-width: 1075px}
     .gallery-track { display: flex; gap: 1.4rem; width: max-content; animation: galleryScroll 40s linear infinite; }
     .gallery-track:hover { animation-play-state: paused; }
     .gallery-item { flex-shrink: 0; width: 370px; transition: transform 0.4s ease; position: relative; z-index: 1; }
     .gallery-item:hover { transform: scale(1.18); z-index: 10; }
     .gallery-item img { width: 100%; height: 280px; object-fit: cover; border-radius: 10px; object-position: center; border-radius:10px; border: 1px solid var(--border); display: block; transition: box-shadow 0.4s; }
     .gallery-item:hover img { box-shadow: 0 12px 48px rgba(0,212,255,0.28); }
-    .gallery-caption { font-family: 'DM Mono', monospace; font-size: 0.63rem; color: var(--muted); text-align: center; margin-top: 0.45rem; }
+    .gallery-caption { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.15rem; color: var(--muted); text-align: center; margin-top: 0.45rem; }
     .gallery-arrow { background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.2); color: var(--accent); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.2s; font-size: 0.85rem; }
     .gallery-arrow:hover { background: rgba(0,212,255,0.15); }
-    .gallery-arrow:first-child { margin-left: -3.5rem; }
+    .gallery-arrow:first-child { margin-left: -2.5rem; }
+
     
     @keyframes galleryScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
@@ -476,6 +477,7 @@
         <a href="mailto:shraddha.harihar8@gmail.com"><i class="fas fa-envelope"></i> shraddha.harihar8@gmail.com</a>
         <a href="https://linkedin.com/in/shraddha-harihar" target="_blank"><i class="fab fa-linkedin-in"></i> linkedin.com/in/shraddha-harihar</a>
       <a href="CV_Shraddha_Harihar.pdf" class="cv-btn"><i class="fas fa-eye"></i> View CV</a>
+      </div>
     </div>
   </aside>
 
@@ -942,31 +944,30 @@ initGraph();
 requestAnimationFrame(drawGraph);
 window.addEventListener('resize', () => { resize(); initGraph(); });
 
-// ── Section reveal ──
-const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('visible');
-  });
-}, { threshold: 0.1 });
 
+// ── Section reveal ──
+new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07 }).observe = (function(orig){
+  return function(el){ orig.call(this,el); };
+})(IntersectionObserver.prototype.observe);
+
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07 });
 document.querySelectorAll('#content section').forEach(s => revealObs.observe(s));
 
-// ── Active nav highlighting ──
-const navLinks = document.querySelectorAll('.sidebar-nav a');
-
+// ── Active nav link ──
+const navLinks = document.querySelectorAll('.nav-link');
 const navObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       navLinks.forEach(l => l.classList.remove('active'));
-      const activeLink = document.querySelector(`.sidebar-nav a[href="#${entry.target.id}"]`);
-      if (activeLink) activeLink.classList.add('active');
+      const a = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if (a) { a.classList.add('active'); a.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
     }
   });
-}, { 
-  threshold: 0.4,
-  rootMargin: "-100px 0px -150px 0px"
-});
-
+}, { threshold: 0.3 });
 document.querySelectorAll('section[id]').forEach(s => navObs.observe(s));
 
 // ── Mobile hamburger ──
